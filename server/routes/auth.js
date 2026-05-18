@@ -1,12 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const { signUp, checkEmail, signIn, logout, forgetPassword, resetPassword, getProfile, updateProfile, refreshAccToken } = require('../controllers/authController')
+const { signUp, checkUser, signIn, logout, forgetPassword, resetPassword, getProfile, updateProfile, refreshAccToken } = require('../controllers/authController')
 const authMiddleware = require('../middleware/authMiddleware')
 const optionalAuthMiddleware = require('../middleware/optionalAuthMiddleware')
 
 // -------------------------- Sign Up
 router.post('/signup', signUp)
-router.post('/check-email', checkEmail)
+router.post('/check-user', checkUser)
 router.post('/signin', signIn)
 router.post('/logout', logout)
 router.post('/forgetPassword', forgetPassword)
