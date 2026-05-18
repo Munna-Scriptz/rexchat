@@ -4,24 +4,27 @@ const { forgetPassTemp } = require("../services/emailTemp")
 const { generateAccToken, generateRefToken, verifyToken } = require("../services/tokens")
 const { isValidEmail } = require("../utils/validations")
 const { genResetToken, hashResetToken } = require("../utils/resetPassword")
+const resHandler = require("../utils/resHandler")
 
 // ========================== Sign Up ===========================
 const signUp = async (req, res) => {
     try {
-        const { email, phone, password } = req.body
+        const { username, email, password } = req.body
 
-        if (!email) return res.status(400).send({ message: 'Email is required!' })
+        // ---------- Validation 
+        if (!username) return resHandler.error(res, 400, "Username is required")
+        if (!email) return resHandler.error(res, 400, "Email is required")
+        if (!isValidEmail(email)) return resHandler.error(res, 400, "Email is not valid")
+        if (!password) return resHandler.error(res, 400, "Password is required")
+
         // ---------- Existing User 
-        const existingUser = await userSchema.findOne({ email })
-        if (existingUser) return res.status(400).send({ message: 'User with this email already exists. Please login!' })
-        if (!phone) return res.status(400).send({ message: 'phone number is required!' })
-        if (!password) return res.status(400).send({ message: 'Password is required!' })
-        if (!isValidEmail(email)) return res.status(400).send({ message: 'Email is not valid!' })
+        const existingUser = await userSchema.findOne({ username })
+        if (existingUser) return resHandler.error(res, 400, "This username is already taken")
 
         // ----------- Sent to DB 
         const user = new userSchema({
+            username,
             email,
-            phone,
             password,
         })
 
@@ -29,43 +32,43 @@ const signUp = async (req, res) => {
 
 
         // ------------------ Success 
-        res.status(201).send({ message: 'Registration Successful' })
+        resHandler.success(res, 201, "Account created successfully")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
-// ========================== Check email =============================
-const checkEmail = async (req, res) => {
+// ========================== Check user =============================
+const checkUser = async (req, res) => {
     try {
-        const { email } = req.body;
+        const { username } = req.body;
 
-        if (!email) return res.status(400).send({ message: "Email is required!", })
-        const existingUser = await userSchema.findOne({ email });
-        if (existingUser) return res.status(409).send({ message: "User with this email already exists. Please login!", });
+        if (!username) return resHandler.error(res, 400, "Email is required")
+        const existingUser = await userSchema.findOne({ username });
+        if (existingUser) return resHandler.error(res, 400, "Username is already taken")
 
         // ------- Available 
-        return res.status(200).send({ message: "Email is available", });
+        return resHandler.error(res, 200, "Username is available")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 };
 
 // ========================== Sign In =============================
 const signIn = async (req, res) => {
     try {
-        const { email, password } = req.body
+        const { username, password } = req.body
 
-        if (!email) return res.status(400).send({ message: 'Email is required!' })
-        if (!password) return res.status(400).send({ message: 'Password is required!' })
-        if (!isValidEmail(email)) return res.status(400).send({ message: 'Email is not valid!' })
+        if (!username) return resHandler.error(res, 400, "Username is required!")
+        if (!password) return resHandler.error(res, 400, "Password is required!")
+        if (!isValidEmail(email)) return resHandler.error(res, 400, "Email is not valid!")
         // ---------- Existing User 
-        const existingUser = await userSchema.findOne({ email })
-        if (!existingUser) return res.status(404).send({ message: `User with this email doesn't exists. Please signUp!` })
+        const existingUser = await userSchema.findOne({ username })
+        if (!existingUser) return resHandler.error(res, 404, "User with this username or email doesn't exists")
 
         // --------- Compare password 
         const isValidPassword = await existingUser.comparePassword(password)
-        if (!isValidPassword) return res.status(400).send({ message: 'Invalid or incorrect password!' })
+        if (!isValidPassword) return resHandler.error(res, 400, "Invalid or incorrect password!")
 
         // ------------- JWT token and cookie
         const accToken = generateAccToken(existingUser)
@@ -74,9 +77,9 @@ const signIn = async (req, res) => {
         res.cookie("X-RF-TOKEN", refToken)
 
         // ------------ Success 
-        res.status(200).send({ message: "Login Successfully completed!" })
+        resHandler.success(res, 200, "Login Successful")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
@@ -85,9 +88,9 @@ const logout = (req, res) => {
     try {
         res.clearCookie('X-AS-TOKEN')
         res.clearCookie('X-RF-TOKEN')
-        res.status(200).send({ message: 'Logout Successful' })
+        resHandler.success(res, 200, "Logout Successful")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
@@ -97,12 +100,12 @@ const forgetPassword = async (req, res) => {
         const { email } = req.body
 
         // ----------- Validation 
-        if (!email) return res.status(400).send({ message: 'Email is required!' })
-        if (!isValidEmail(email)) return res.status(400).send({ message: 'Email is not valid!' })
+        if (!email) return resHandler.error(res, 400, "Email is required!")
+        if (!isValidEmail(email)) return resHandler.error(res, 400, "Email is not valid!")
 
         // ----------- Find From db
         const existingUser = await userSchema.findOne({ email })
-        if (!existingUser) return res.status(400).send({ message: `email is not registered!` })
+        if (!existingUser) return resHandler.error(res, 400, "email is not registered!")
 
         // ------------- Send forget link to email
         const { token, hashToken } = genResetToken()
@@ -114,9 +117,9 @@ const forgetPassword = async (req, res) => {
 
 
         // -------------- Success 
-        res.status(200).send({ message: "Reset password link has been sent!" })
+        resHandler.success(res, 200, "Reset password link has been sent!")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
@@ -126,18 +129,18 @@ const resetPassword = async (req, res) => {
         const { token } = req.params
         const { newPassword } = req.body
 
-        if (!token) return res.status(400).send({ message: "Invalid request" })
-        if (!newPassword) return res.status(400).send({ message: "New password is required!" })
+        if (!token) return resHandler.error(res, 400, "Invalid request")
+        if (!newPassword) return resHandler.error(res, 400, "New password is required!")
 
         // ------------- Verify hash and update token 
         const hashToken = hashResetToken(token)
-        if (!hashToken) return res.status(400).send({ message: "Something went wrong!" })
+        if (!hashToken) return resHandler.error(res, 400, "Something went wrong!")
 
         const existingUser = await userSchema.findOne({
             resetPassTkn: hashToken,
             resetPassExp: { $gt: Date.now() }
         }).select("password email")
-        if (!existingUser) return res.status(400).send({ message: "Your link is invalid or expired!" })
+        if (!existingUser) return resHandler.error(res, 400, "Your link is invalid or expired!")
 
         // --------------- Save modified  
         existingUser.password = newPassword
@@ -146,25 +149,25 @@ const resetPassword = async (req, res) => {
         existingUser.save()
 
         // --------------- Success 
-        res.status(200).send({ message: "Your password has been updated!" })
+        resHandler.success(res, 200, "Your password has been updated!")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
 // ========================== Get Profile ========================== 
 const getProfile = async (req, res) => {
     try {
-        if (!req.user?._id) return res.status(200).send(null)
+        if (!req.user?._id) return resHandler.success(res, 200, "Profile fetched successfully", null)
 
         const userInfo = await userSchema.findById(req.user?._id).select('-password')
-        if (!userInfo) return res.status(404).send({ message: "User doesn't exist" })
+        if (!userInfo) return resHandler.error(res, 404, "User doesn't exist")
 
         // ------------- Success 
-        res.status(200).send(userInfo)
+        resHandler.success(res, 200, "Profile fetched successfully", userInfo)
     } catch (error) {
         console.log(error)
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
@@ -172,19 +175,19 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
         const { _id } = req.user
-        const { fullname, phone } = req.body
+        const { username, email } = req.body
 
         // ------- Find from DB 
         const existingUser = await userSchema.findById(_id)
-        if (fullname) existingUser.fullname = fullname
-        if (phone) existingUser.phone = phone
+        if (username) existingUser.username = username
+        if (email) existingUser.email = email
 
         await existingUser.save()
 
         // ------------- Success 
-        res.status(202).send({ message: "Profile updated", user: existingUser })
+        resHandler.success(res, 202, "Profile updated", existingUser)
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
@@ -202,13 +205,13 @@ const refreshAccToken = (req, res) => {
         res.cookie("X-AS-TOKEN", accToken)
 
         // ---------- Success 
-        res.status(201).send("Token created")
+        resHandler.success(res, 201, "Token created")
     } catch (error) {
-        res.status(500).send({ message: "Internal server error" })
+        resHandler.error(res, 500, "Internal server error")
     }
 }
 
 
 
 
-module.exports = { signUp, checkEmail, signIn, logout, forgetPassword, resetPassword, getProfile, updateProfile, refreshAccToken }
+module.exports = { signUp, checkUser, signIn, logout, forgetPassword, resetPassword, getProfile, updateProfile, refreshAccToken }

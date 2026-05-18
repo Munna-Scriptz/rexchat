@@ -5,13 +5,15 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String,
     },
-    fullname: {
+    username: {
         type: String,
+        required: true,
+        unique: true,
+        trim: true
     },
     email: {
         type: String,
         require: true,
-        unique: true
     },
     phone: {
         type: String
@@ -24,10 +26,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: 'user',
         enum: ['admin', 'user']
-    },
-    totalOrders: {
-        type: Number,
-        default: 0
     },
     resetPassTkn: {
         type: String
