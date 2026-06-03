@@ -1,9 +1,8 @@
-import React from 'react'
+import React from 'react';
+import ChatArea from '../components/chat/ChatArea';
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  return <ChatArea />;
+};
 
-export default Home
+export default Home;

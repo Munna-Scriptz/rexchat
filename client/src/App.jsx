@@ -1,5 +1,5 @@
-import React from 'react'
-import './App.css'
+import React from 'react';
+import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router";
 import LayoutOne from './layout/LayoutOne';
 import Home from './pages/Home';
@@ -11,8 +11,7 @@ const App = () => {
         <Route index element={<Home />} />
       </Route>
     </Route>
-  ))
-
+  ));
 
   return (
     <>

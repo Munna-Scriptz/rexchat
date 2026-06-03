@@ -81,82 +81,102 @@
     --gradient-brand: linear-gradient(135deg, #6D28D9 0%, #7C3AED 50%, #00E5FF 100%);
     --gradient-surface: linear-gradient(180deg, #11131F 0%, #0D101B 100%);
 
+    /* ================= Typography ================= */
+    --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+    /* ================= Animations ================= */
+    --animate-fade-in: fade-in 0.3s ease-out forwards;
+    --animate-slide-up: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    --animate-scale-in: scale-in 0.2s ease-out forwards;
+    --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+    --animate-typing-dot: typing-dot 1.4s ease-in-out infinite;
+    --animate-message-in: message-in 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-color {
-    /* ================= Base ================= */
-    --color-bg: #0A0B14;
-    /* Main app background */
-    --color-surface: #11131F;
-    /* Cards, sidebars, chat panels */
-    --color-muted: #171A28;
-    /* Hover states, secondary surfaces */
-    --color-surface-hover: #1D2133;
-    /* Interactive hover */
-    --color-elevated: #21263A;
-    /* Dropdowns, modals */
+/* ================= Keyframes ================= */
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
-    /* ================= Text ================= */
-    --color-text-primary: #F8FAFC;
-    /* Main text */
-    --color-text-secondary: #A8B0C0;
-    /* Secondary text */
-    --color-coil: #D9E1F2;
-    /* Logo / emphasized text */
-    --color-text-muted: #6B7280;
-    /* Placeholders, hints */
+@keyframes slide-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-    /* ================= Borders ================= */
-    --color-border: #252A3D;
-    /* Standard borders */
-    --color-border-hover: #343B52;
-    /* Hover border */
+@keyframes scale-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
 
-    /* ================= Brand ================= */
-    --color-brand: #6D28D9;
-    /* Primary Purple */
-    --color-brand-light: #7C3AED;
-    /* Hover Purple */
-    --color-brand-dark: #5B21B6;
-    /* Active Purple */
-    --color-accent: #00E5FF;
-    /* Electric Cyan */
-    --color-accent-soft: #0E2933;
-    /* Cyan background */
-    --color-accent-glow: #6DF2FF;
-    /* Glow effects */
+@keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 8px rgba(109, 40, 217, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(109, 40, 217, 0.6); }
+}
 
-    /* ================= Chat ================= */
-    --color-chat-sent: #6D28D9;
-    /* Your messages */
-    --color-chat-sent-hover: #7C3AED;
-    --color-chat-received: #1B2030;
-    /* Other messages */
-    --color-chat-received-hover: #242A3D;
+@keyframes typing-dot {
+    0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+    30% { opacity: 1; transform: translateY(-4px); }
+}
 
-    /* ================= Status ================= */
-    --color-success: #22C55E;
-    /* Online */
-    --color-warning: #F59E0B;
-    /* Warning */
-    --color-error: #EF4444;
-    /* Error */
-    --color-info: #38BDF8;
+@keyframes message-in {
+    from { opacity: 0; transform: translateY(8px) scale(0.97); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
 
-    /* ================= Presence ================= */
-    --color-online: #22C55E;
-    --color-away: #F59E0B;
-    --color-offline: #6B7280;
+/* ================= Global Styles ================= */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
-    /* ================= Effects ================= */
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
-    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
-    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.35);
-    --shadow-brand: 0 0 25px rgba(109, 40, 217, 0.35);
-    --shadow-accent: 0 0 25px rgba(0, 229, 255, 0.25);
+html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
 
-    /* ================= Gradients ================= */
-    --gradient-brand: linear-gradient(135deg, #6D28D9 0%, #7C3AED 50%, #00E5FF 100%);
-    --gradient-surface: linear-gradient(180deg, #11131F 0%, #0D101B 100%);
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    overflow: hidden;
+    min-height: 100vh;
+}
 
+#root {
+    min-height: 100vh;
+}
+
+/* ================= Custom Scrollbar ================= */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(165, 180, 210, 0.12);
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(165, 180, 210, 0.22);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(165, 180, 210, 0.12) transparent;
+}
+
+/* ================= Selection ================= */
+::selection {
+    background: rgba(109, 40, 217, 0.4);
+    color: #F8FAFC;
 }

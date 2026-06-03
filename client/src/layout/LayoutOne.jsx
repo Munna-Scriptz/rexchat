@@ -1,14 +1,19 @@
-import React from 'react'
-import { Outlet } from 'react-router'
-import Navbar from '../components/navbar/Navbar'
+import React, { useState } from 'react';
+import { Outlet } from 'react-router';
+import ChatSidebar from '../components/chat/ChatSidebar';
 
 const LayoutOne = () => {
-  return (
-    <section className='flex gap-6'>
-      <Navbar />
-      <Outlet />
-    </section>
-  )
-}
+  const [activeConversation, setActiveConversation] = useState(1);
 
-export default LayoutOne
+  return (
+    <section className="flex h-screen w-screen overflow-hidden bg-bg">
+      <ChatSidebar
+        activeConversation={activeConversation}
+        onSelectConversation={setActiveConversation}
+      />
+      <Outlet context={{ activeConversation }} />
+    </section>
+  );
+};
+
+export default LayoutOne;
