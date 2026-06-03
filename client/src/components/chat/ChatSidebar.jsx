@@ -183,7 +183,7 @@ const ChatSidebar = ({ activeConversation, onSelectConversation }) => {
 
       {/* ══════════ Navigation Tabs ══════════ */}
       <div className="px-4 pb-3 flex-shrink-0">
-        <div className="flex overflow-x-auto gap-1 p-1 bg-muted/50 rounded-xl">
+        <div className="flex overflow-x-auto gap-1 p-1 bg-muted/50 rounded-xl">    
           {navItems.map((item) => (
             <button
               key={item.label}
