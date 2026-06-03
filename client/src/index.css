@@ -1,1 +1,162 @@
 @import "tailwindcss";
+
+@utility container {
+    margin-inline: auto;
+    padding-inline: 1rem;
+}
+
+@theme {
+    /* ================= Base ================= */
+    --color-bg: #0A0B14;
+    /* Main app background */
+    --color-surface: #11131F;
+    /* Cards, sidebars, chat panels */
+    --color-muted: #171A28;
+    /* Hover states, secondary surfaces */
+    --color-surface-hover: #1D2133;
+    /* Interactive hover */
+    --color-elevated: #21263A;
+    /* Dropdowns, modals */
+
+    /* ================= Text ================= */
+    --color-text-primary: #F8FAFC;
+    /* Main text */
+    --color-text-secondary: #A8B0C0;
+    /* Secondary text */
+    --color-coil: #D9E1F2;
+    /* Logo / emphasized text */
+    --color-text-muted: #6B7280;
+    /* Placeholders, hints */
+
+    /* ================= Borders ================= */
+    --color-border: #252A3D;
+    /* Standard borders */
+    --color-border-hover: #343B52;
+    /* Hover border */
+
+    /* ================= Brand ================= */
+    --color-brand: #6D28D9;
+    /* Primary Purple */
+    --color-brand-light: #7C3AED;
+    /* Hover Purple */
+    --color-brand-dark: #5B21B6;
+    /* Active Purple */
+    --color-accent: #00E5FF;
+    /* Electric Cyan */
+    --color-accent-soft: #0E2933;
+    /* Cyan background */
+    --color-accent-glow: #6DF2FF;
+    /* Glow effects */
+
+    /* ================= Chat ================= */
+    --color-chat-sent: #6D28D9;
+    /* Your messages */
+    --color-chat-sent-hover: #7C3AED;
+    --color-chat-received: #1B2030;
+    /* Other messages */
+    --color-chat-received-hover: #242A3D;
+
+    /* ================= Status ================= */
+    --color-success: #22C55E;
+    /* Online */
+    --color-warning: #F59E0B;
+    /* Warning */
+    --color-error: #EF4444;
+    /* Error */
+    --color-info: #38BDF8;
+
+    /* ================= Presence ================= */
+    --color-online: #22C55E;
+    --color-away: #F59E0B;
+    --color-offline: #6B7280;
+
+    /* ================= Effects ================= */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.35);
+    --shadow-brand: 0 0 25px rgba(109, 40, 217, 0.35);
+    --shadow-accent: 0 0 25px rgba(0, 229, 255, 0.25);
+
+    /* ================= Gradients ================= */
+    --gradient-brand: linear-gradient(135deg, #6D28D9 0%, #7C3AED 50%, #00E5FF 100%);
+    --gradient-surface: linear-gradient(180deg, #11131F 0%, #0D101B 100%);
+
+}
+
+color {
+    /* ================= Base ================= */
+    --color-bg: #0A0B14;
+    /* Main app background */
+    --color-surface: #11131F;
+    /* Cards, sidebars, chat panels */
+    --color-muted: #171A28;
+    /* Hover states, secondary surfaces */
+    --color-surface-hover: #1D2133;
+    /* Interactive hover */
+    --color-elevated: #21263A;
+    /* Dropdowns, modals */
+
+    /* ================= Text ================= */
+    --color-text-primary: #F8FAFC;
+    /* Main text */
+    --color-text-secondary: #A8B0C0;
+    /* Secondary text */
+    --color-coil: #D9E1F2;
+    /* Logo / emphasized text */
+    --color-text-muted: #6B7280;
+    /* Placeholders, hints */
+
+    /* ================= Borders ================= */
+    --color-border: #252A3D;
+    /* Standard borders */
+    --color-border-hover: #343B52;
+    /* Hover border */
+
+    /* ================= Brand ================= */
+    --color-brand: #6D28D9;
+    /* Primary Purple */
+    --color-brand-light: #7C3AED;
+    /* Hover Purple */
+    --color-brand-dark: #5B21B6;
+    /* Active Purple */
+    --color-accent: #00E5FF;
+    /* Electric Cyan */
+    --color-accent-soft: #0E2933;
+    /* Cyan background */
+    --color-accent-glow: #6DF2FF;
+    /* Glow effects */
+
+    /* ================= Chat ================= */
+    --color-chat-sent: #6D28D9;
+    /* Your messages */
+    --color-chat-sent-hover: #7C3AED;
+    --color-chat-received: #1B2030;
+    /* Other messages */
+    --color-chat-received-hover: #242A3D;
+
+    /* ================= Status ================= */
+    --color-success: #22C55E;
+    /* Online */
+    --color-warning: #F59E0B;
+    /* Warning */
+    --color-error: #EF4444;
+    /* Error */
+    --color-info: #38BDF8;
+
+    /* ================= Presence ================= */
+    --color-online: #22C55E;
+    --color-away: #F59E0B;
+    --color-offline: #6B7280;
+
+    /* ================= Effects ================= */
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.35);
+    --shadow-brand: 0 0 25px rgba(109, 40, 217, 0.35);
+    --shadow-accent: 0 0 25px rgba(0, 229, 255, 0.25);
+
+    /* ================= Gradients ================= */
+    --gradient-brand: linear-gradient(135deg, #6D28D9 0%, #7C3AED 50%, #00E5FF 100%);
+    --gradient-surface: linear-gradient(180deg, #11131F 0%, #0D101B 100%);
+
+}

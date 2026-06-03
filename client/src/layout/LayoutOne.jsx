@@ -1,11 +1,13 @@
 import React from 'react'
 import { Outlet } from 'react-router'
+import Navbar from '../components/navbar/Navbar'
 
 const LayoutOne = () => {
   return (
-    <>
-        <Outlet />
-    </>
+    <section className='flex gap-6'>
+      <Navbar />
+      <Outlet />
+    </section>
   )
 }
 
