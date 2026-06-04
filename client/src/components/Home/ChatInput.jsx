@@ -91,13 +91,6 @@ const ChatInput = () => {
           </svg>
         </button>
       </div>
-
-      {/* Input hint */}
-      <div className="flex items-center justify-center mt-2">
-        <p className="text-[10px] text-text-muted/40 tracking-wide">
-          Press <kbd className="px-1.5 py-0.5 bg-muted/50 rounded text-text-muted/50 font-medium text-[9px]">Enter</kbd> to send · <kbd className="px-1.5 py-0.5 bg-muted/50 rounded text-text-muted/50 font-medium text-[9px]">Shift + Enter</kbd> for new line
-        </p>
-      </div>
     </div>
   );
 };

@@ -1,0 +1,38 @@
+/* ================= Global Styles ================= */
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+/* ================= Custom Scrollbar ================= */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(165, 180, 210, 0.12);
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(165, 180, 210, 0.22);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(165, 180, 210, 0.12) transparent;
+}
+
+/* ================= Selection ================= */
+::selection {
+    background: rgba(109, 40, 217, 0.4);
+    color: #F8FAFC;
+}

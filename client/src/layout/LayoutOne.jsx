@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Outlet } from 'react-router';
-import ChatSidebar from '../components/chat/ChatSidebar';
+import Navbar from '../components/navbar/Navbar';
 
 const LayoutOne = () => {
   const [activeConversation, setActiveConversation] = useState(1);
 
   return (
     <section className="flex h-screen w-screen overflow-hidden bg-bg">
-      <ChatSidebar
+      <Navbar
         activeConversation={activeConversation}
         onSelectConversation={setActiveConversation}
       />
-      <Outlet context={{ activeConversation }} />
+      <Outlet />
     </section>
   );
 };
