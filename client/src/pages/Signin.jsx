@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import Inputs from '../components/ui/Inputs';
 import Button from '../components/ui/Buttons';
+import toast from 'react-hot-toast';
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Signin = () => {
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);
+      toast.success("Welcome back to rexchat!");
       // Navigate to chat home
       navigate('/');
     }, 1500);

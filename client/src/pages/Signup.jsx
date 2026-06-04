@@ -2,10 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
 import Inputs from '../components/ui/Inputs';
 import Button from '../components/ui/Buttons';
+import { useSignupMutation } from '../api';
+import toast from 'react-hot-toast';
 
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [createSignup, { error, isLoading }] = useSignupMutation()
 
   const [formData, setFormData] = useState({
     username: '',
@@ -15,26 +18,21 @@ const Signup = () => {
     password: '',
     passwordErr: '',
   });
-  const [isLoading, setIsLoading] = useState(false);
 
   // ---------- Handle Submit ------------
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    toast.error("Account created successfully!");
+    // validations
+    // if (!formData.username) return setFormData((prev) => ({ ...prev, usernameErr: "Username is required" }));
+    // if (!formData.email) return setFormData((prev) => ({ ...prev, emailErr: "Email is required" }));
+    // if (!formData.password) return setFormData((prev) => ({ ...prev, passwordErr: "Password is required" }));
+    // if (formData.password.length < 6) return setFormData((prev) => ({ ...prev, passwordErr: "Password must be at least 6 characters" }));
 
-    // Form validations
-    if (!formData.username) return setFormData((prev) => ({ ...prev, usernameErr: "Username is required" }));
-    if (!formData.email) return setFormData((prev) => ({ ...prev, emailErr: "Email is required" }));
-    if (!formData.password) return setFormData((prev) => ({ ...prev, passwordErr: "Password is required" }));
-    if (formData.password.length < 6) return setFormData((prev) => ({ ...prev, passwordErr: "Password must be at least 6 characters" }));
-
-    setIsLoading(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      // Navigate to chat home
-      navigate('/');
-    }, 1500);
+    // const res = await createSignup(formData)
+    // setTimeout(() => {
+    //   navigate('/');
+    // }, 1500);
   };
 
   // ---------- Handle Input change ------------

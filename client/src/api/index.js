@@ -37,9 +37,18 @@ export const api = createApi({
     tagTypes: ["auth"],
 
     endpoints: (build) => ({
+        // ============== User and auth ==============
         getProfile: build.query({
             query: () => "/auth/profile",
             providesTags: ["auth"],
+        }),
+
+        signup: build.mutation({
+            query: (data) => ({
+                url: "/auth/signup",
+                method: "POST",
+                body: data,
+            }),
         }),
 
     }),
@@ -49,4 +58,10 @@ export const api = createApi({
 
 export const {
     useGetProfileQuery,
+    useSignupMutation,
+
+
+
+
+    
 } = api
