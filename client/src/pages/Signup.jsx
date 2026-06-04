@@ -3,27 +3,29 @@ import { useNavigate, Link } from 'react-router';
 import Inputs from '../components/ui/Inputs';
 import Button from '../components/ui/Buttons';
 
+
 const Signup = () => {
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
-    displayName: '',
     username: '',
+    usernameErr: '',
     email: '',
+    emailErr: '',
     password: '',
-    confirmPassword: ''
+    passwordErr: '',
   });
-  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+  // ---------- Handle Submit ------------
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
 
     // Form validations
-    if (!formData.username) return setError('Username is required');
-    if (!formData.email) return setError('Email address is required');
-    if (!formData.password) return setError('Password is required');
-    if (formData.password.length < 6) return setError('Password must be at least 6 characters');
+    if (!formData.username) return setFormData((prev) => ({ ...prev, usernameErr: "Username is required" }));
+    if (!formData.email) return setFormData((prev) => ({ ...prev, emailErr: "Email is required" }));
+    if (!formData.password) return setFormData((prev) => ({ ...prev, passwordErr: "Password is required" }));
+    if (formData.password.length < 6) return setFormData((prev) => ({ ...prev, passwordErr: "Password must be at least 6 characters" }));
 
     setIsLoading(true);
 
@@ -35,9 +37,9 @@ const Signup = () => {
     }, 1500);
   };
 
+  // ---------- Handle Input change ------------
   const handleInputChange = (key, value) => {
-    setError('');
-    setFormData(prev => ({ ...prev, [key]: value }));
+    setFormData(prev => ({ ...prev, [key]: value, [`${key}Err`]: "" }));
   };
 
   return (
@@ -66,26 +68,12 @@ const Signup = () => {
 
       {/* Logo & Headline */}
       <div className="w-full flex flex-col items-center lg:items-start text-center lg:text-left mb-8">
-        <div className="flex items-center gap-2.5 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-brand via-brand-light to-accent flex items-center justify-center shadow-brand shadow-md">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            </svg>
-          </div>
-          <span className="text-xl font-bold bg-gradient-to-r from-text-primary to-coil bg-clip-text text-transparent tracking-tight text-glow select-none">RexChat</span>
-        </div>
-
-        <h1 className="text-3xl font-extrabold text-text-primary tracking-tight">Create Account</h1>
+        <h2 className="text-3xl font-extrabold text-text-primary tracking-tight">Create Account</h2>
         <p className="mt-2 text-text-secondary text-sm">Start chatting with people around the world.</p>
       </div>
 
       {/* Auth Form */}
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
-        {error && (
-          <div className="p-3.5 rounded-xl bg-error/10 border border-error/20 text-error text-xs font-medium animate-pulse">
-            {error}
-          </div>
-        )}
 
         <Inputs
           label="Username"
@@ -95,6 +83,7 @@ const Signup = () => {
           variant="primary"
           size="md"
           value={formData.username}
+          error={formData.usernameErr}
           onChange={(e) => handleInputChange('username', e.target.value)}
           disabled={isLoading}
         />
@@ -107,6 +96,7 @@ const Signup = () => {
           variant="primary"
           size="md"
           value={formData.email}
+          error={formData.emailErr}
           onChange={(e) => handleInputChange('email', e.target.value)}
           disabled={isLoading}
         />
@@ -119,6 +109,7 @@ const Signup = () => {
           variant="primary"
           size="md"
           value={formData.password}
+          error={formData.passwordErr}
           onChange={(e) => handleInputChange('password', e.target.value)}
           disabled={isLoading}
         />
@@ -132,6 +123,41 @@ const Signup = () => {
           className="w-full py-3.5 rounded-xl font-bold group relative overflow-hidden mt-4"
         >
           Create Account
+        </Button>
+
+        {/* Divider */}
+        <div className="flex items-center gap-4 my-2">
+          <div className="h-[1px] flex-1 bg-border/60"></div>
+          <span className="text-[10px] text-text-secondary/50 font-bold uppercase tracking-wider select-none">Or continue with</span>
+          <div className="h-[1px] flex-1 bg-border/60"></div>
+        </div>
+
+        {/* Google Authentication Button */}
+        <Button
+          type="button"
+          variant="secondary"
+          size="md"
+          className="w-full py-3.5 rounded-xl font-bold flex items-center justify-center gap-2.5 transition-all duration-300 border border-border hover:border-text-secondary/30 cursor-pointer"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" className="select-none">
+            <path
+              fill="#EA4335"
+              d="M12 5.04c1.7 0 3.2.6 4.4 1.7l3.3-3.3C17.7 1.6 15 1 12 1 7.3 1 3.3 3.7 1.4 7.7l3.9 3C6.2 7.7 8.9 5.04 12 5.04z"
+            />
+            <path
+              fill="#4285F4"
+              d="M23.5 12.3c0-.8-.1-1.7-.2-2.5H12v4.8h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.8 3c2.2-2 3.6-5 3.6-9z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M5.3 14.8c-.3-.8-.4-1.8-.4-2.8s.1-2 .4-2.8L1.4 6.2C.5 8 .0 10 .0 12c0 2 .5 4 1.4 5.8l3.9-3z"
+            />
+            <path
+              fill="#34A853"
+              d="M12 23c3.2 0 6-1 8-3l-3.8-3c-1.1.7-2.6 1.2-4.2 1.2-3.1 0-5.8-2.6-6.7-5.7l-3.9 3C3.3 20.3 7.3 23 12 23z"
+            />
+          </svg>
+          Continue with Google
         </Button>
       </form>
 

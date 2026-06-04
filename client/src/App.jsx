@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import AuthLayout from './layout/AuthLayout';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
+import { ApiProvider } from '@reduxjs/toolkit/query/react';
+import { api } from './api';
 
 const App = () => {
   const myRoute = createBrowserRouter(createRoutesFromElements(
@@ -23,7 +25,9 @@ const App = () => {
 
   return (
     <>
-      <RouterProvider router={myRoute} />
+      <ApiProvider api={api}>
+        <RouterProvider router={myRoute} />
+      </ApiProvider>
     </>
   )
 }
