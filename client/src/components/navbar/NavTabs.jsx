@@ -3,10 +3,15 @@ import React, { useState } from 'react'
 const NavTabs = ({ navItems }) => {
     const [activeNav, setActiveNav] = useState('Chats');
 
-
     return (
         <div className="px-4 pb-3 flex-shrink-0">
-            <div className="flex overflow-x-auto gap-1 p-1 bg-muted/50 rounded-xl">
+            <div className="flex overflow-x-auto gap-2 p-1 bg-muted/50 rounded-xl"
+                style={{
+                    scrollbarWidth: 'none',          /* Firefox */
+                    msOverflowStyle: 'none',
+                    WebkitScrollbar: { display: 'none' } 
+                }}
+            >
                 {navItems.map((item) => (
                     <button
                         key={item.label}

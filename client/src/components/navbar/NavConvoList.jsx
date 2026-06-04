@@ -12,8 +12,8 @@ const NavConvoList = ({ conversations, activeConversation, onSelectConversation 
                         key={conv.id}
                         id={`conversation-${conv.id}`}
                         onClick={() => onSelectConversation(conv.id)}
-                        className={`w-full flex items-center gap-3 px-3 py-3 rounded-2xl transition-all duration-200 text-left group relative
-                                    ${isActive
+                        className={`w-full flex items-center cursor-pointer gap-3 px-3 py-3 rounded-2xl transition-all duration-200 text-left group relative
+                                ${isActive
                                 ? 'bg-brand/10 border border-brand/20 shadow-[0_0_20px_rgba(109,40,217,0.1)]'
                                 : 'hover:bg-muted/70 border border-transparent'
                             }`}
@@ -27,7 +27,7 @@ const NavConvoList = ({ conversations, activeConversation, onSelectConversation 
                         {/* Avatar */}
                         <div className="relative flex-shrink-0">
                             <div className={`w-11 h-11 rounded-full bg-gradient-to-br ${conv.gradient} flex items-center justify-center text-white text-sm font-bold shadow-sm
-                                    ${isActive ? 'scale-105' : 'group-hover:scale-105'} transition-transform duration-200`}
+                                ${isActive ? 'scale-105' : 'group-hover:scale-105'} transition-transform duration-200`}
                             >
                                 {conv.initials}
                             </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { IoChatboxOutline } from "react-icons/io5";
+import { FiMessageSquare } from "react-icons/fi";
 import { GrGroup } from "react-icons/gr";
+import { RiChatUnreadLine } from "react-icons/ri";
 import NavHeader from './NavHeader';
 import NavSearch from './NavSearch';
 import NavTabs from './NavTabs';
@@ -60,7 +61,8 @@ const conversations = [
 const Navbar = ({ activeConversation, onSelectConversation }) => {
 
     const navItems = [
-        { label: 'Chats', icon: <IoChatboxOutline />, badge: 16 },
+        { label: 'Chats', icon: <FiMessageSquare />, badge: 16 },
+        { label: 'Unread', icon: <RiChatUnreadLine />, badge: 3 },
         { label: 'Groups', icon: <GrGroup />, badge: 3 },
     ];
 
