@@ -1,5 +1,5 @@
 const resHandler = {
-    success: (res, statusCode = 200, message, data = null, ) => {
+    success: (res, statusCode = 200, message, data = null,) => {
         res.status(statusCode).json({
             success: true,
             statusCode,

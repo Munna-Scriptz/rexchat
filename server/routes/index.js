@@ -5,6 +5,8 @@ const auth = require('./auth')
 // ------------ All routes 
 router.use('/auth', auth)
 
+
+
 router.get('/', (req, res)=>{
     res.send("Hello world")
 })

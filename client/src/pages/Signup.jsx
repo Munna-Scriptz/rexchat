@@ -22,17 +22,28 @@ const Signup = () => {
   // ---------- Handle Submit ------------
   const handleSubmit = async (e) => {
     e.preventDefault();
-    toast.error("Account created successfully!");
-    // validations
-    // if (!formData.username) return setFormData((prev) => ({ ...prev, usernameErr: "Username is required" }));
-    // if (!formData.email) return setFormData((prev) => ({ ...prev, emailErr: "Email is required" }));
-    // if (!formData.password) return setFormData((prev) => ({ ...prev, passwordErr: "Password is required" }));
-    // if (formData.password.length < 6) return setFormData((prev) => ({ ...prev, passwordErr: "Password must be at least 6 characters" }));
 
-    // const res = await createSignup(formData)
-    // setTimeout(() => {
-    //   navigate('/');
-    // }, 1500);
+    // validations
+    if (!formData.username) return setFormData((prev) => ({ ...prev, usernameErr: "Username is required" }));
+    if (/^\d+$/.test(formData.username)) return setFormData((prev) => ({ ...prev, usernameErr: "Username cannot contain only numbers" }));
+
+    if (!formData.email) return setFormData((prev) => ({ ...prev, emailErr: "Email is required" }));
+    if (!formData.password) return setFormData((prev) => ({ ...prev, passwordErr: "Password is required" }));
+    if (formData.password.length < 6) return setFormData((prev) => ({ ...prev, passwordErr: "Password must be at least 6 characters" }));
+
+    await createSignup(formData)
+
+    if (error) {
+      if (error.data.message == "This username is already taken") return setFormData((prev) => ({ ...prev, usernameErr: "This username is already taken." }));
+      toast.error(error.data.message)
+      return
+    }
+
+    toast.success("Account created successfully!")
+
+    setTimeout(() => {
+      navigate('/auth/signin');
+    }, 800);
   };
 
   // ---------- Handle Input change ------------

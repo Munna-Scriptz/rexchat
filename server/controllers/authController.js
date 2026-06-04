@@ -7,7 +7,7 @@ const { genResetToken, hashResetToken } = require("../utils/resetPassword")
 const resHandler = require("../utils/resHandler")
 
 // ========================== Sign Up ===========================
-const signUp = async (req, res) => {
+const signUp = async (req, res) => { 
     try {
         const { username, email, password } = req.body
 
@@ -37,7 +37,7 @@ const signUp = async (req, res) => {
         resHandler.error(res, 500, "Internal server error")
     }
 }
-
+ 
 // ========================== Check user =============================
 const checkUser = async (req, res) => {
     try {
