@@ -3,36 +3,44 @@ import { useNavigate, Link } from 'react-router';
 import Inputs from '../components/ui/Inputs';
 import Button from '../components/ui/Buttons';
 import toast from 'react-hot-toast';
+import { useSigninMutation } from '../api';
 
 const Signin = () => {
   const navigate = useNavigate();
+  const [createSignin, { isLoading }] = useSigninMutation()
 
   const [formData, setFormData] = useState({
-    email: '',
-    emailErr: '',
+    username: '',
+    usernameErr: '',
     password: '',
     passwordErr: '',
   });
 
-  const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false)
 
   // ---------- Handle Submit ------------
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Quick demo validation
-    if (!formData.email) return setFormData((prev) => ({ ...prev, emailErr: "Email is required" }));
+    if (!formData.username) return setFormData((prev) => ({ ...prev, usernameErr: "Username or email is required" }));
     if (!formData.password) return setFormData((prev) => ({ ...prev, passwordErr: "Password is required" }));
-    setIsLoading(true);
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false);
-      toast.success("Welcome back to rexchat!");
-      // Navigate to chat home
-      navigate('/');
-    }, 1500);
+
+    try {
+      await createSignin(formData).unwrap()
+
+      toast.success("Logged in successfully!")
+
+      setTimeout(() => {
+        navigate('/');
+      }, 800);
+    } catch (error) {
+      if (error.data.message == "User with this username or email doesn't exists") return setFormData((prev) => ({ ...prev, usernameErr: "Account not found" }));
+      if (error.data.message == "Invalid or incorrect password!") return setFormData((prev) => ({ ...prev, passwordErr: "incorrect password" }));
+      toast.error(error.data.message)
+      console.log(error);
+    }
   };
 
   // ---------- Handle Input change ------------
@@ -73,15 +81,15 @@ const Signin = () => {
       {/* Auth Form */}
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-4">
         <Inputs
-          label="Email or Username"
-          placeholder="Enter your email or username"
+          label="Username or email"
+          placeholder="Enter your username or email"
           type="text"
-          id="email"
+          id="username"
           variant="primary"
           size="md"
-          value={formData.email}
-          error={formData.emailErr}
-          onChange={(e) => handleInputChange('email', e.target.value)}
+          value={formData.username}
+          error={formData.usernameErr}
+          onChange={(e) => handleInputChange('username', e.target.value)}
           disabled={isLoading}
         />
 

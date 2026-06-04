@@ -51,6 +51,14 @@ export const api = createApi({
             }),
         }),
 
+        signin: build.mutation({
+            query: (data) => ({
+                url: "/auth/signin",
+                method: "POST",
+                body: data,
+            }),
+        }),
+
     }),
 
 })
@@ -59,9 +67,9 @@ export const api = createApi({
 export const {
     useGetProfileQuery,
     useSignupMutation,
+    useSigninMutation,
 
 
 
 
-    
 } = api

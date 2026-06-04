@@ -7,7 +7,7 @@ const { genResetToken, hashResetToken } = require("../utils/resetPassword")
 const resHandler = require("../utils/resHandler")
 
 // ========================== Sign Up ===========================
-const signUp = async (req, res) => { 
+const signUp = async (req, res) => {
     try {
         const { username, email, password } = req.body
 
@@ -18,8 +18,14 @@ const signUp = async (req, res) => {
         if (!password) return resHandler.error(res, 400, "Password is required")
 
         // ---------- Existing User 
-        const existingUser = await userSchema.findOne({ username })
-        if (existingUser) return resHandler.error(res, 400, "This username is already taken")
+        const existingUser = await userSchema.findOne({
+            $or: [{ username }, { email }],
+        });
+
+        if (existingUser) {
+            if (existingUser.username == username) return resHandler.error(res, 400, "Username already taken");
+            if (existingUser.email == email) return resHandler.error(res, 400, "Email already registered");
+        }
 
         // ----------- Sent to DB 
         const user = new userSchema({
@@ -37,7 +43,7 @@ const signUp = async (req, res) => {
         resHandler.error(res, 500, "Internal server error")
     }
 }
- 
+
 // ========================== Check user =============================
 const checkUser = async (req, res) => {
     try {
@@ -61,9 +67,14 @@ const signIn = async (req, res) => {
 
         if (!username) return resHandler.error(res, 400, "Username is required!")
         if (!password) return resHandler.error(res, 400, "Password is required!")
-        if (!isValidEmail(email)) return resHandler.error(res, 400, "Email is not valid!")
+
         // ---------- Existing User 
-        const existingUser = await userSchema.findOne({ username })
+        const existingUser = await userSchema.findOne({
+            $or: [
+                { email: username },
+                { username: username },
+            ],
+        });
         if (!existingUser) return resHandler.error(res, 404, "User with this username or email doesn't exists")
 
         // --------- Compare password 
@@ -79,6 +90,7 @@ const signIn = async (req, res) => {
         // ------------ Success 
         resHandler.success(res, 200, "Login Successful")
     } catch (error) {
+        console.log(error)
         resHandler.error(res, 500, "Internal server error")
     }
 }
