@@ -3,12 +3,14 @@ import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router";
 import LayoutOne from './layout/LayoutOne';
 import Home from './pages/Home';
+import Settings from './pages/Settings';
 import AuthLayout from './layout/AuthLayout';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { api } from './api';
 import { Toaster } from 'react-hot-toast';
+import UserLayout from './layout/UserLayout';
 
 
 const App = () => {
@@ -18,6 +20,12 @@ const App = () => {
         <Route index element={<Home />} />
       </Route>
 
+      {/* =============== User Layout ============ */}
+      <Route path='/user' element={<UserLayout />}>
+        <Route path='settings' element={<Settings />} />
+      </Route>
+
+      {/* =============== Auth Layout ============ */}
       <Route path='/auth' element={<AuthLayout />}>
         <Route path='/auth/signin' element={<Signin />} />
         <Route path='/auth/signup' element={<Signup />} />

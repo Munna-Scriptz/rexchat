@@ -43,6 +43,23 @@ export const api = createApi({
             providesTags: ["auth"],
         }),
 
+        updateProfile: build.mutation({
+            query: (data) => ({
+                url: "/auth/profile",
+                method: "PATCH",
+                body: data,
+            }),
+            invalidatesTags: ["auth"],
+        }),
+
+        resetPassword: build.mutation({
+            query: (data) => ({
+                url: "/auth/reset-password",
+                method: "POST",
+                body: data,
+            }),
+        }),
+
         signup: build.mutation({
             query: (data) => ({
                 url: "/auth/signup",
@@ -59,6 +76,13 @@ export const api = createApi({
             }),
         }),
 
+        signout: build.mutation({
+            query: () => ({
+                url: "/auth/signout",
+                method: "POST",
+            }),
+        }),
+
     }),
 
 })
@@ -66,9 +90,11 @@ export const api = createApi({
 
 export const {
     useGetProfileQuery,
+    useUpdateProfileMutation,
+    useResetPasswordMutation,
     useSignupMutation,
     useSigninMutation,
-
+    useSignoutMutation
 
 
 
