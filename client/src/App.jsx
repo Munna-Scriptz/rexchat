@@ -3,14 +3,21 @@ import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router";
 import LayoutOne from './layout/LayoutOne';
 import Home from './pages/Home';
-import Settings from './pages/Settings';
 import AuthLayout from './layout/AuthLayout';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import { ApiProvider } from '@reduxjs/toolkit/query/react';
 import { api } from './api';
 import { Toaster } from 'react-hot-toast';
+
 import UserLayout from './layout/UserLayout';
+import Profile from './pages/user/Profile';
+import Friends from './pages/user/Friends';
+import Followers from './pages/user/Followers';
+import Preferences from './pages/user/Preferences';
+import Security from './pages/user/Security';
+import Groups from './pages/user/Groups';
+import Blocked from './pages/user/Blocked';
 
 
 const App = () => {
@@ -22,7 +29,13 @@ const App = () => {
 
       {/* =============== User Layout ============ */}
       <Route path='/user' element={<UserLayout />}>
-        <Route path='settings' element={<Settings />} />
+        <Route index element={<Profile />} />
+        <Route path='friends' element={<Friends />} />
+        <Route path='followers' element={<Followers />} />
+        <Route path='preferences' element={<Preferences />} />
+        <Route path='security' element={<Security />} />
+        <Route path='groups' element={<Groups />} />
+        <Route path='blocked' element={<Blocked />} />
       </Route>
 
       {/* =============== Auth Layout ============ */}
