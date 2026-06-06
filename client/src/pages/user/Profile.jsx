@@ -1,22 +1,85 @@
 import React, { useState } from 'react'
-import { useGetProfileQuery } from '../../api';
+import { useGetProfileQuery, useLazyCheckUserQuery, useUpdateProfileMutation } from '../../api';
 import Button from '../../components/ui/Buttons';
 import { FiCamera, FiInbox, FiSave, FiUser } from 'react-icons/fi';
 import StatusDot from '../../components/ui/StatusDot';
 import Inputs from '../../components/ui/Inputs';
 import { HiOutlineSparkles } from 'react-icons/hi2';
+import toast from 'react-hot-toast';
+import { useEffect } from 'react';
+import { useRef } from 'react';
 
 const Profile = () => {
     const { data: user, isFetching } = useGetProfileQuery();
-    let isUpdatingProfile
-    const [currentProfile, setCurrentProfile] = useState({
-        name: "rexon",
-        username: "rexon",
-        bio: "Hey, guys im new here!"
-    })
-    // ----------- Handle Profile Update ------------
-    const handleUpdate = () => {
+    const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateProfileMutation();
+    const [checkUser, { data: checkUserData, isLoading: isCheckUserLoading }] = useLazyCheckUserQuery();
 
+    const debounceRef = useRef(null);
+    const [currentProfile, setCurrentProfile] = useState({
+        displayName: "",
+        username: "",
+        usernameErr: "",
+        usernameHelper: "",
+        bio: "",
+        thumbnail: null,
+    })
+
+    // ----------- Fill the usestate with user data ------------
+    useEffect(() => {
+        if (user?.data) {
+            setCurrentProfile({
+                displayName: user.data.displayName || "",
+                username: user.data.username || "",
+                bio: user.data.bio || "",
+            });
+        }
+    }, [user]);
+
+    // ----------- Handle Check Username ------------
+    const handleCheckUsername = async (e) => {
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current);
+        }
+
+        debounceRef.current = setTimeout(async () => {
+            try {
+                if (e.toLowerCase() == user?.data?.username) {
+                    setCurrentProfile((prev) => ({ ...prev, usernameErr: "" }))
+                    setCurrentProfile((prev) => ({ ...prev, usernameHelper: "" }))
+                    return
+                }
+
+                await checkUser(e.toLowerCase()).unwrap()
+
+
+                setCurrentProfile((prev) => ({ ...prev, usernameErr: "" }))
+                setCurrentProfile((prev) => ({ ...prev, usernameHelper: "Username avaible" }))
+            } catch (error) {
+                setCurrentProfile((prev) => ({ ...prev, usernameHelper: "" }))
+                setCurrentProfile((prev) => ({ ...prev, usernameErr: error?.data?.message }))
+            }
+        }, 500);
+    }
+
+    // ----------- Handle Profile Update ------------
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+        if (currentProfile.usernameErr) return
+
+        try {
+            const formData = new FormData();
+            formData.append('displayName', currentProfile.displayName);
+            formData.append('username', currentProfile.username)
+            formData.append('bio', currentProfile.bio)
+            formData.append('avatar', currentProfile.thumbnail)
+
+            await updateProfile(formData).unwrap()
+
+
+            toast.success("Account created successfully!")
+        } catch (error) {
+            toast.error(error?.data?.message)
+        }
     }
 
     return (
@@ -27,9 +90,15 @@ const Profile = () => {
                         <label className="relative block cursor-pointer group" aria-label="Change avatar">
                             <div className="w-24 h-24 rounded-2xl overflow-hidden bg-gradient-to-br from-brand to-accent flex items-center justify-center text-white text-2xl font-bold shadow-brand ring-2 ring-transparent transition-all group-hover:ring-accent/70">
                                 {user?.data?.avatar ?
-                                    <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0rJz6pclOd1NFNQZCX9FnjWJQNt7Ghogtag&s"} alt={"Avatar"} className="h-full w-full object-cover" />
+                                    currentProfile.thumbnail ?
+                                        <img src={URL.createObjectURL(currentProfile.thumbnail)} alt={"Avatar"} className="h-full w-full object-cover" />
+                                        :
+                                        <img src={user?.data?.avatar} alt={"Avatar"} className="h-full w-full object-cover" />
                                     :
-                                    (user?.data?.username)?.slice(0, 2)?.toUpperCase()
+                                    currentProfile.thumbnail ?
+                                        <img src={URL.createObjectURL(currentProfile.thumbnail)} alt={"Avatar"} className="h-full w-full object-cover" />
+                                        :
+                                        (user?.data?.username)?.slice(0, 2)?.toUpperCase()
                                 }
                             </div>
                             <span className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/45 text-white opacity-0 transition-opacity group-hover:opacity-100">
@@ -42,7 +111,7 @@ const Profile = () => {
                                 type="file"
                                 accept="image/png,image/jpeg,image/webp"
                                 className="hidden"
-                                onChange={(event) => setThumbnailFile(event.target.files?.[0] || null)}
+                                onChange={(e) => setCurrentProfile((prev) => ({ ...prev, thumbnail: e.target.files?.[0] || null }))}
                             />
                         </label>
                         <div className="min-w-0">
@@ -58,8 +127,8 @@ const Profile = () => {
                         label="Display name"
                         id="settings-name"
                         placeholder="Your display name"
-                        value={currentProfile.name}
-                        onChange={(event) => handleProfileChange('name', event.target.value)}
+                        value={currentProfile.displayName}
+                        onChange={(e) => setCurrentProfile((prev) => ({ ...prev, displayName: e.target.value }))}
                         leftIcon={<FiUser />}
                         disabled={isFetching || isUpdatingProfile}
                     />
@@ -68,7 +137,10 @@ const Profile = () => {
                         id="settings-username"
                         placeholder="Username"
                         value={currentProfile.username}
-                        onChange={(event) => handleProfileChange('username', event.target.value)}
+                        error={currentProfile.usernameErr}
+                        helperText={currentProfile.usernameHelper}
+                        loading={isCheckUserLoading}
+                        onChange={(e) => { handleCheckUsername(e.target.value), setCurrentProfile((prev) => ({ ...prev, username: e.target.value })) }}
                         leftIcon={<HiOutlineSparkles />}
                         disabled={isFetching || isUpdatingProfile}
                     />
@@ -76,10 +148,9 @@ const Profile = () => {
                         <Inputs
                             label="Bio"
                             id="settings-email"
-                            type="email"
                             placeholder="Hey! im feeling well today"
                             value={currentProfile.bio}
-                            onChange={(event) => handleProfileChange('bio', event.target.value)}
+                            onChange={(e) => setCurrentProfile((prev) => ({ ...prev, bio: e.target.value }))}
                             leftIcon={<FiInbox />}
                             disabled={isFetching || isUpdatingProfile}
                         />

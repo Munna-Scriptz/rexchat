@@ -34,16 +34,16 @@ const Signup = () => {
     try {
       await createSignup(formData).unwrap()
 
-      
+
       toast.success("Account created successfully!")
       setTimeout(() => {
         navigate('/auth/signin');
       }, 800);
 
     } catch (error) {
-      if (error.data.message == "Username already taken") return setFormData((prev) => ({ ...prev, usernameErr: "Username already taken" }));
-      if (error.data.message == "Email already registered") return setFormData((prev) => ({ ...prev, emailErr: "Email already registered" }));
-      toast.error(error.data.message)
+      if (error?.data?.message == "Username already taken") return setFormData((prev) => ({ ...prev, usernameErr: "Username already taken" }));
+      if (error?.data?.message == "Email already registered") return setFormData((prev) => ({ ...prev, emailErr: "Email already registered" }));
+      toast.error(error?.data?.message)
     }
 
   };

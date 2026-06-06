@@ -23,7 +23,7 @@ const UserNavbar = () => {
                     <div className="flex items-center gap-3 min-w-0">
                         <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-xl bg-gradient-to-br from-brand to-accent flex items-center justify-center text-sm font-bold text-white shadow-sm ring-2 ring-border/50 group-hover:ring-brand/30 transition-all">
                             {user?.data?.avatar ?
-                                <img src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0rJz6pclOd1NFNQZCX9FnjWJQNt7Ghogtag&s"} alt={"Avatar"} className="h-full w-full object-cover" />
+                                <img src={user?.data?.avatar} alt={"Avatar"} className="h-full w-full object-cover" />
                                 :
                                 (user?.data?.username)?.slice(0, 2)?.toUpperCase()
                             }

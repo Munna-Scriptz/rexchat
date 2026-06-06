@@ -15,13 +15,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    bio: {
+        type: String,
+    },
     email: {
         type: String,
         require: true,
         unique: true,
-    },
-    phone: {
-        type: String
     },
     password: {
         type: String,

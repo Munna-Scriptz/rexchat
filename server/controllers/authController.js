@@ -48,7 +48,7 @@ const signUp = async (req, res) => {
 // ========================== Check user =============================
 const checkUser = async (req, res) => {
     try {
-        const { username } = req.body;
+        const { username } = req.params;
 
         if (!username) return resHandler.error(res, 400, "Email is required")
         const existingUser = await userSchema.findOne({ username });
@@ -199,13 +199,15 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
         const { _id } = req.user
-        const { username, displayName } = req.body
+        const { username, displayName, bio } = req.body
         const avatar = req.file
 
         // ------- Find from DB 
         const existingUser = await userSchema.findById(_id)
         if (username) existingUser.username = username
         if (displayName) existingUser.displayName = displayName
+        if (bio) existingUser.bio = bio
+
         if (avatar) {
             if (existingUser.avatar) {
                 cloudDelete({ folder: "avatar", file: existingUser.avatar })

@@ -7,6 +7,7 @@ const Inputs = ({
     error,
     helperText,
     leftIcon,
+    loading = false,
     type = 'text',
     id,
     variant = 'primary',
@@ -61,28 +62,41 @@ const Inputs = ({
             )}
 
             <div className="relative flex items-center">
-                {leftIcon && (
-                    <div className="absolute left-4 text-slate-500 group-focus-within:text-brand transition-colors" >
-                        {leftIcon}
-                    </div>
-                )}
-
-                <input
-                    id={id}
-                    type={currentType}
-                    className={`${baseStyles} ${error ? errorBase : `${variants[variant]}`}  ${sizes[size]} ${leftIcon ? 'pl-11' : ''} ${isPassword ? 'pr-11' : ''} ${className}`}
-                    defaultValue={defaultValue}
-                    {...props}
-                />
-
-                {isPassword && (
-                    <button
-                        type="button"
-                        onClick={() => setShowPassword(!showPassword)}
-                        className="absolute right-3.5 text-slate-400 hover:text-white text-lg transition-colors focus:outline-none cursor-pointer"
+                {loading ? (
+                    <div
+                        className={`${baseStyles} ${variants[variant]} ${sizes[size]} animate-pulse justify-center gap-3`}
                     >
-                        {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-                    </button>
+                        <div className="w-4 h-4 border-2 border-slate-500 border-t-transparent rounded-full animate-spin" />
+                        <div className="h-4 flex-1 rounded bg-slate-700/50" />
+                    </div>
+                ) : (
+                    <>
+                        {leftIcon && (
+                            <div className="absolute left-4 text-slate-500 group-focus-within:text-brand transition-colors">
+                                {leftIcon}
+                            </div>
+                        )}
+
+                        <input
+                            id={id}
+                            type={currentType}
+                            className={`${baseStyles} ${error ? errorBase : variants[variant]
+                                } ${sizes[size]} ${leftIcon ? "pl-11" : ""} ${isPassword ? "pr-11" : ""
+                                } ${className}`}
+                            defaultValue={defaultValue}
+                            {...props}
+                        />
+
+                        {isPassword && (
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3.5 text-slate-400 hover:text-white text-lg transition-colors focus:outline-none cursor-pointer"
+                            >
+                                {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
+                            </button>
+                        )}
+                    </>
                 )}
             </div>
 

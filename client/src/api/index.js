@@ -45,11 +45,15 @@ export const api = createApi({
 
         updateProfile: build.mutation({
             query: (data) => ({
-                url: "/auth/profile",
+                url: "/auth/updateProfile",
                 method: "PATCH",
                 body: data,
             }),
             invalidatesTags: ["auth"],
+        }),
+
+        checkUser: build.query({
+            query: (username) => `/auth/check-user/${username}`
         }),
 
         resetPassword: build.mutation({
@@ -91,6 +95,7 @@ export const api = createApi({
 export const {
     useGetProfileQuery,
     useUpdateProfileMutation,
+    useLazyCheckUserQuery,
     useResetPasswordMutation,
     useSignupMutation,
     useSigninMutation,
