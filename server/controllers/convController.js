@@ -1,4 +1,5 @@
 const conversationSchema = require("../models/conversationSchema")
+const messageSchema = require("../models/messageSchema")
 const resHandler = require("../utils/resHandler")
 
 // ════════════════════ Create Private Convo ════════════════════
@@ -51,4 +52,47 @@ const convoList = async (req, res) => {
 }
 
 
-module.exports = { createPrivateConvo, convoList }
+// ════════════════════ Send Message ════════════════════
+const sendMessage = async (req, res) => {
+    try {
+        const { text, conversation } = req.body
+
+        // ---------- Existing Convo ------------
+        const existingConvo = await conversationSchema.findOne({ _id: conversation })
+        if (!existingConvo) return resHandler.error(res, 400, "Conversation doesn't exists")
+
+        // ---------- Create Message ------------
+        await messageSchema.create({
+            conversation,
+            text,
+            sender: req.user._id
+        })
+
+        // ----------- Success 
+        resHandler.success(res, 200, "Message sent")
+    } catch (error) {
+        resHandler.error(res, 500, "Internal server error")
+    }
+}
+
+
+// ════════════════════ Get Message ════════════════════
+const getMessage = async (req, res) => {
+    try { 
+        const { conversation } = req.params
+
+        if (!conversation) return resHandler.error(res, 400, "Conversation is required")
+
+        // ---------- Finding messages ------------
+        const messages = await messageSchema.find({ conversation })
+        if (!messages) return resHandler.error(res, 400, "Coudn't found any messages")
+
+
+        // ----------- Success 
+        resHandler.success(res, 200, "Message data fetched", messages)
+    } catch (error) {
+        resHandler.error(res, 500, "Internal server error")
+    }
+}
+
+module.exports = { createPrivateConvo, convoList, sendMessage, getMessage }

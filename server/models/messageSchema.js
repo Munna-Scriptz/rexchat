@@ -37,11 +37,6 @@ const messageSchema = new mongoose.Schema({
         ref: "user",
     }],
 
-    deletedFor: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
-    }],
-
     isEdited: {
         type: Boolean,
         default: false,
