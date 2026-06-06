@@ -8,7 +8,7 @@ const generateAccToken = (data) => {
             email: data.email,
             role: data.role
 
-        }, process.env.JWT_SEC, { expiresIn: '120d' });
+        }, process.env.JWT_SEC, { expiresIn: '7d' });
         return token
 
     } catch (error) {

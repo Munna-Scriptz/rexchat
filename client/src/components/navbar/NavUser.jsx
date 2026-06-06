@@ -40,7 +40,7 @@ const NavUser = () => {
                                         </div>
                                         :
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white text-sm font-bold">
-                                            {(user?.data?.username).slice(0, 2)}
+                                            {(user?.data?.username)?.slice(0, 2)}
                                         </div>
                                 }
                                 <div className="absolute -bottom-0.5 -right-0.5">

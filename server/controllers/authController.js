@@ -5,6 +5,7 @@ const { generateAccToken, generateRefToken, verifyToken } = require("../services
 const { isValidEmail } = require("../utils/validations")
 const { genResetToken, hashResetToken } = require("../utils/resetPassword")
 const resHandler = require("../utils/resHandler")
+const { cloudDelete, cloudUpload } = require("../services/cloudUpload")
 
 // ========================== Sign Up ===========================
 const signUp = async (req, res) => {
@@ -84,8 +85,19 @@ const signIn = async (req, res) => {
         // ------------- JWT token and cookie
         const accToken = generateAccToken(existingUser)
         const refToken = generateRefToken(existingUser)
-        res.cookie("X-AS-TOKEN", accToken)
-        res.cookie("X-RF-TOKEN", refToken)
+        res.cookie("X-AS-TOKEN", accToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
+
+        res.cookie("X-RF-TOKEN", refToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+            maxAge: 120 * 24 * 60 * 60 * 1000,
+        })
 
         // ------------ Success 
         resHandler.success(res, 200, "Login Successful")
@@ -187,12 +199,20 @@ const getProfile = async (req, res) => {
 const updateProfile = async (req, res) => {
     try {
         const { _id } = req.user
-        const { username, email } = req.body
+        const { username, displayName } = req.body
+        const avatar = req.file
 
         // ------- Find from DB 
         const existingUser = await userSchema.findById(_id)
         if (username) existingUser.username = username
-        if (email) existingUser.email = email
+        if (displayName) existingUser.displayName = displayName
+        if (avatar) {
+            if (existingUser.avatar) {
+                cloudDelete({ folder: "avatar", file: existingUser.avatar })
+            }
+            const cloudRes = await cloudUpload({ file: avatar, folderPath: "rexchat/user", folder: "avatar" })
+            existingUser.avatar = cloudRes.secure_url
+        }
 
         await existingUser.save()
 

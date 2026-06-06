@@ -36,9 +36,9 @@ const Signin = () => {
         navigate('/');
       }, 800);
     } catch (error) {
-      if (error.data.message == "User with this username or email doesn't exists") return setFormData((prev) => ({ ...prev, usernameErr: "Account not found" }));
-      if (error.data.message == "Invalid or incorrect password!") return setFormData((prev) => ({ ...prev, passwordErr: "incorrect password" }));
-      toast.error(error.data.message)
+      if (error?.data?.message == "User with this username or email doesn't exists") return setFormData((prev) => ({ ...prev, usernameErr: "Account not found" }));
+      if (error?.data?.message == "Invalid or incorrect password!") return setFormData((prev) => ({ ...prev, passwordErr: "incorrect password" }));
+      toast.error(error?.data?.message)
       console.log(error);
     }
   };
