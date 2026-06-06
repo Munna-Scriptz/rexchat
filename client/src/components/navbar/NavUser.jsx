@@ -6,8 +6,8 @@ import StatusDot from '../ui/StatusDot';
 import { useGetProfileQuery } from '../../api';
 
 const NavUser = () => {
-
     const { data: user, isFetching } = useGetProfileQuery()
+
 
     return (
         <>
@@ -30,7 +30,7 @@ const NavUser = () => {
                         </div>
                     </div>
                     :
-                    <div className="flex-shrink-0 p-3 border-t border-border">
+                    <Link to={"/user"} className="flex-shrink-0 p-3 border-t border-border">
                         <div className="flex items-center gap-3 px-2 py-2 rounded-2xl hover:bg-muted/50 transition-all duration-200 cursor-pointer group">
                             <div className="relative">
                                 {
@@ -69,7 +69,7 @@ const NavUser = () => {
                                 </button>
                             </div>
                         </div>
-                    </div>
+                    </Link>
             }
         </>
     )

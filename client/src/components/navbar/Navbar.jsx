@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FiMessageSquare } from "react-icons/fi";
 import { GrGroup } from "react-icons/gr";
 import { RiChatUnreadLine } from "react-icons/ri";
@@ -78,7 +78,7 @@ const Navbar = ({ activeConversation, onSelectConversation }) => {
             <NavTabs navItems={navItems} />
 
             {/* ══════════ Conversation List ══════════ */}
-            <NavConvoList conversations={conversations} activeConversation={activeConversation} onSelectConversation={onSelectConversation}/>
+            <NavConvoList conversations={conversations} activeConversation={activeConversation} onSelectConversation={onSelectConversation} />
 
             {/* ══════════ User Profile ══════════ */}
             <NavUser />
