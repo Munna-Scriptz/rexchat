@@ -2,7 +2,7 @@ import React from 'react';
 
 const Button = ({
     children,
-    variant = 'primary',
+    variant = '',
     size = '',
     isLoading = false,
     leftIcon,

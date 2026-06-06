@@ -1,15 +1,20 @@
 import React from 'react'
 import { Link, Outlet, useLocation } from 'react-router'
 import UserNavbar from '../components/userNav/UserNavbar'
-import { FiArrowLeft, FiShield } from 'react-icons/fi'
+import { FiArrowLeft } from 'react-icons/fi'
+import { useGetProfileQuery } from '../api'
+import AuthModal from '../components/modals/AuthModal'
 
 const UserLayout = () => {
+    const { data: user, isFetching } = useGetProfileQuery()
     const { pathname } = useLocation()
+
+    if (!user) return <AuthModal isOpen={true} />
 
     return (
         <>
             <main className='flex w-full flex-col lg:flex-row'>
-                <UserNavbar />
+                <UserNavbar user={user} isFetching={isFetching} />
                 <section className="min-w-0 flex-1 overflow-y-auto p-4 md:p-6 lg:h-screen">
                     <div className="mx-auto max-w-5xl animate-fade-in">
                         <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -31,12 +36,13 @@ const UserLayout = () => {
                                 </Link>
                             </div>
                         </div>
-                        <Outlet />
+                        <Outlet context={{ user, isFetching }} />
                     </div>
                 </section>
             </main>
         </>
     )
+
 }
 
 export default UserLayout

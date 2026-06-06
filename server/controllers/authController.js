@@ -110,8 +110,16 @@ const signIn = async (req, res) => {
 // ========================== Logout =============================
 const logout = (req, res) => {
     try {
-        res.clearCookie('X-AS-TOKEN')
-        res.clearCookie('X-RF-TOKEN')
+        res.clearCookie('X-AS-TOKEN', {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        })
+        res.clearCookie('X-RF-TOKEN', {
+            httpOnly: true,
+            secure: true,
+            sameSite: "none",
+        })
         resHandler.success(res, 200, "Logout Successful")
     } catch (error) {
         resHandler.error(res, 500, "Internal server error")

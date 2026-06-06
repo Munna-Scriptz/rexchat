@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useGetProfileQuery, useLazyCheckUserQuery, useUpdateProfileMutation } from '../../api';
+import { useLazyCheckUserQuery, useUpdateProfileMutation } from '../../api';
 import Button from '../../components/ui/Buttons';
 import { FiCamera, FiInbox, FiSave, FiUser } from 'react-icons/fi';
 import StatusDot from '../../components/ui/StatusDot';
@@ -8,9 +8,11 @@ import { HiOutlineSparkles } from 'react-icons/hi2';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useRef } from 'react';
+import { ProfileSkeleton } from '../../components/ui/SkeletonLoaders';
+import { useOutletContext } from 'react-router';
 
 const Profile = () => {
-    const { data: user, isFetching } = useGetProfileQuery();
+    const { user, isFetching } = useOutletContext();
     const [updateProfile, { isLoading: isUpdatingProfile }] = useUpdateProfileMutation();
     const [checkUser, { data: checkUserData, isLoading: isCheckUserLoading }] = useLazyCheckUserQuery();
 
@@ -81,6 +83,9 @@ const Profile = () => {
             toast.error(error?.data?.message)
         }
     }
+
+    // ----------- Skeleton Loader ------------
+    if (isFetching) return <ProfileSkeleton />
 
     return (
         <div className="grid grid-cols-1 xl:grid-cols-[minmax(0,1fr)_320px] gap-4 md:gap-5">
@@ -179,15 +184,6 @@ const Profile = () => {
                         </div>
                     ))}
                 </div>
-                {/* <div className="mt-5">
-                    <div className="flex items-center justify-between text-xs font-semibold text-text-secondary">
-                        <span>Account completion</span>
-                        <span>{accountHealth}%</span>
-                    </div>
-                    <div className="mt-2 h-2 rounded-full bg-muted overflow-hidden">
-                        <div className="h-full rounded-full bg-gradient-to-r from-brand to-accent" style={{ width: `${accountHealth}%` }} />
-                    </div>
-                </div> */}
             </section>
         </div>
     )
