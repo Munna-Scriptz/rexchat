@@ -60,15 +60,15 @@ const convs = [
 
 
 const Navbar = ({ activeConversation, onSelectConversation }) => {
+    // ------------ From server -----------
+    const { data: conversations, isLoading } = useGetConvoListQuery()
+
     const navItems = [
-        { label: 'Chats', icon: <FiMessageSquare />, badge: 16 },
+        { label: 'Chats', icon: <FiMessageSquare />, badge: conversations?.data?.length || 0 },
         { label: 'Unread', icon: <RiChatUnreadLine />, badge: 3 },
         { label: 'Groups', icon: <GrGroup />, badge: 3 },
     ];
 
-    // ------------ From server -----------
-    const { data: conversations, isLoading } = useGetConvoListQuery()
-    console.log(conversations)
 
     return (
         <aside id="Navbar" className="w-80 h-screen flex flex-col bg-surface border-r border-border flex-shrink-0 select-none">

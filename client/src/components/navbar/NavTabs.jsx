@@ -9,7 +9,7 @@ const NavTabs = ({ navItems }) => {
                 style={{
                     scrollbarWidth: 'none',          /* Firefox */
                     msOverflowStyle: 'none',
-                    WebkitScrollbar: { display: 'none' } 
+                    WebkitScrollbar: { display: 'none' }
                 }}
             >
                 {navItems.map((item) => (
@@ -25,16 +25,14 @@ const NavTabs = ({ navItems }) => {
                     >
                         <span className="flex items-center text-lg">{item.icon}</span>
                         <span className="hidden lg:inline">{item.label}</span>
-                        {item.badge > 0 && (
-                            <span className={`min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] font-bold px-1
+                        <span className={`min-w-[18px] h-[18px] flex items-center justify-center rounded-full text-[10px] font-bold px-1
                                     ${activeNav === item.label
-                                    ? 'bg-white/20 text-white'
-                                    : 'bg-brand/20 text-brand-light'
-                                }`}
-                            >
-                                {item.badge}
-                            </span>
-                        )}
+                                ? 'bg-white/20 text-white'
+                                : 'bg-brand/20 text-brand-light'
+                            }`}
+                        >
+                            {item.badge}
+                        </span>
                     </button>
                 ))}
             </div>

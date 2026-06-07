@@ -36,7 +36,7 @@ const NavUser = () => {
                                 {
                                     user?.data?.avatar ?
                                         <div className="w-10 h-10 rounded-full overflow-hidden">
-                                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0rJz6pclOd1NFNQZCX9FnjWJQNt7Ghogtag&s" alt="avatar" />
+                                            <img src={user?.data?.avatar} alt="avatar" />
                                         </div>
                                         :
                                         <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white text-sm font-bold">

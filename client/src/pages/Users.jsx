@@ -47,7 +47,7 @@ const Users = () => {
                                             {
                                                 item.avatar ?
                                                     <div className="w-12 h-12 rounded-full overflow-hidden">
-                                                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0rJz6pclOd1NFNQZCX9FnjWJQNt7Ghogtag&s" alt="avatar" />
+                                                        <img src={item.avatar} alt="avatar" />
                                                     </div>
                                                     :
                                                     <div className={`flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br ${item.gradient || 'from-brand to-accent'} text-sm font-bold text-white`}>
