@@ -43,6 +43,10 @@ export const api = createApi({
             providesTags: ["auth"],
         }),
 
+        getUsers: build.query({
+            query: () => "/auth/users",
+        }),
+
         updateProfile: build.mutation({
             query: (data) => ({
                 url: "/auth/updateProfile",
@@ -87,6 +91,12 @@ export const api = createApi({
             }),
         }),
 
+
+        // ============== Conversation & Chat ==============
+        getConvoList: build.query({
+            query: () => "/conv/list",
+        }),
+
     }),
 
 })
@@ -94,6 +104,7 @@ export const api = createApi({
 
 export const {
     useGetProfileQuery,
+    useGetUsersQuery,
     useUpdateProfileMutation,
     useLazyCheckUserQuery,
     useResetPasswordMutation,

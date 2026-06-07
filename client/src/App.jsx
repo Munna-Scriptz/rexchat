@@ -3,6 +3,7 @@ import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router";
 import LayoutOne from './layout/LayoutOne';
 import Home from './pages/Home';
+import Users from './pages/Users';
 import AuthLayout from './layout/AuthLayout';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
@@ -25,6 +26,7 @@ const App = () => {
     <Route>
       <Route path='/' element={<LayoutOne />}>
         <Route index element={<Home />} />
+        <Route path='/users' element={<Users />} />
       </Route>
 
       {/* =============== User Layout ============ */}

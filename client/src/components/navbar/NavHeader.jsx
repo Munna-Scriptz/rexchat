@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import { FaRegBell } from 'react-icons/fa'
 import { LuSettings } from 'react-icons/lu'
+import { FiUserPlus } from 'react-icons/fi'
 
 const NavHeader = () => {
     return (
@@ -19,17 +20,16 @@ const NavHeader = () => {
                 </div>
             </div>
             <div className="flex items-center gap-1">
-                <button
-                    id="sidebar-notifications-btn"
+                <Link
+                    to={"/users"}
                     className="w-9 h-9 rounded-xl cursor-pointer text-lg flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-muted transition-all duration-200 relative"
                     aria-label="Notifications"
                 >
-                    <FaRegBell />
+                    <FiUserPlus />
                     <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-error rounded-full" />
-                </button>
+                </Link>
                 <Link
                     to="/user"
-                    id="sidebar-settings-btn"
                     className="w-9 h-9 rounded-xl text-xl cursor-pointer flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-muted transition-all duration-200"
                     aria-label="Settings"
                 >

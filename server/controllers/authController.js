@@ -202,6 +202,19 @@ const getProfile = async (req, res) => {
         resHandler.error(res, 500, "Internal server error")
     }
 }
+// ========================== Refresh access token =================
+const getUsers = async (req, res) => {
+    try {
+
+        const users = await userSchema.find({}).select('username avatar displayName bio')
+        if (!users) return resHandler.error(res, 404, "No users found")
+
+        // ------------- Success 
+        resHandler.success(res, 200, "Users fetched", users)
+    } catch (error) {
+        resHandler.error(res, 500, "Internal server error")
+    }
+}
 
 // ========================== Update Profile =======================
 const updateProfile = async (req, res) => {
@@ -256,4 +269,4 @@ const refreshAccToken = (req, res) => {
 
 
 
-module.exports = { signUp, checkUser, signIn, logout, forgetPassword, resetPassword, getProfile, updateProfile, refreshAccToken }
+module.exports = { signUp, checkUser, signIn, logout, forgetPassword, resetPassword, getProfile, getUsers, updateProfile, refreshAccToken }

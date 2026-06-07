@@ -3,7 +3,7 @@ const router = express.Router()
 const authMiddleware = require('../middleware/authMiddleware')
 const { createPrivateConvo, convoList, sendMessage, getMessage } = require('../controllers/convController')
 
-// -------------------------- Sign Up
+// ------------------ Conversation ----------------
 router.post('/private', authMiddleware, createPrivateConvo)
 router.post('/send-message', authMiddleware, sendMessage)
 router.get('/list', authMiddleware, convoList)
