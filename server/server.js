@@ -2,14 +2,17 @@ require('dotenv').config({ quiet: true })
 const express = require("express")
 const cors = require("cors")
 const dns = require("dns")
+const { Server } = require("socket.io");
+const { createServer } = require('http');
 dns.setServers(['8.8.8.8', '8.8.4.4']);
 const dbConfig = require("./dbConfig")
 const router = require("./routes")
 const cookieParser = require('cookie-parser')
 const cloudConfig = require('./services/cloudConfig');
 const app = express()
+const server = createServer(app)
 
-// ------------------- Middlewares 
+// ════════════════════ Middlewares ════════════════════
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
@@ -17,15 +20,25 @@ app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
 }))
-// ------------------- Route 
+const io = new Server(server, { cors: { origin: "http://localhost:5173", credentials: true, } });
+
+// ════════════════════ Socket io ════════════════════
+io.on('connection', (socket) => {
+    console.log('a user connected');
+});
+
+
+
+// ════════════════════ Routes ════════════════════
 app.use(router)
-// ------------------- Database 
+
+// ════════════════════ Database & config ════════════════════
 dbConfig()
 cloudConfig()
 
-// ------------------- Server Listener 
+// ════════════════════ Server Listener ════════════════════
 if (process.env.NODE_ENV !== "production") {
-    app.listen(8000, () => {
+    server.listen(8000, () => {
         console.log('Server Is Running')
     })
 }

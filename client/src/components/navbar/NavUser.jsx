@@ -52,14 +52,14 @@ const NavUser = () => {
                                 <p className="text-[11px] text-text-muted truncate">Online</p>
                             </div>
                             <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                <Link
+                                <button
                                     to="/user"
                                     id="user-settings-btn"
                                     className="w-8 h-8 rounded-lg text-lg cursor-pointer flex items-center justify-center text-text-muted hover:text-text-primary hover:bg-elevated transition-all duration-200"
                                     aria-label="User settings"
                                 >
                                     <LuSettings />
-                                </Link>
+                                </button>
                                 <button
                                     id="user-logout-btn"
                                     className="w-8 h-8 rounded-lg text-lg cursor-pointer flex items-center justify-center text-text-muted hover:text-error hover:bg-error/10 transition-all duration-200"
