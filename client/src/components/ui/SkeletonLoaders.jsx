@@ -61,3 +61,38 @@ export const ProfileSkeleton = () => {
         </div>
     )
 }
+
+export const UserSkeleton = () => {
+    return (
+        <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-4 animate-pulse w-full">
+            {[1, 2, 3, 4,5,6,7 ,8, 9, 10,11,12].map((index) => (
+                <div
+                    key={index}
+                    className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-surface p-4"
+                >
+                    {/* Left Section: Avatar & Info */}
+                    <div className="flex min-w-0 items-center gap-3.5">
+                        <div className="relative">
+                            <div className="w-12 h-12 rounded-full bg-muted shrink-0" />
+                            <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-surface bg-muted" />
+                        </div>
+                        <div className="min-w-0 space-y-1.5">
+                            <div className="h-4 bg-muted rounded w-28" />
+                            <div className="h-3 bg-muted rounded w-20" />
+                        </div>
+                    </div>
+
+                    {/* Right Section: Action Buttons */}
+                    <div className="flex items-center gap-2 shrink-0">
+                        {/* Follow Button Placeholder */}
+                        <div className="h-9 w-9 rounded-xl bg-muted border border-border" />
+                        {/* View Profile Button Placeholder */}
+                        <div className="h-9 w-9 rounded-xl bg-muted border border-border" />
+                        {/* Message Button Placeholder */}
+                        <div className="h-9 w-20 rounded-xl bg-muted" />
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}

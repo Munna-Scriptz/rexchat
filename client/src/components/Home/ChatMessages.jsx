@@ -50,7 +50,7 @@ const MessageBubble = ({ message, index }) => {
 
   return (
     <div
-      className={`flex ${isMe ? 'justify-end' : 'justify-start'} group animate-message-in px-4`}
+      className={`flex ${isMe ? 'justify-end' : 'justify-start'} group animate-message-in `}
       style={{ animationDelay: `${index * 25}ms` }}
     >
       <div className={`max-w-[520px] relative`}>

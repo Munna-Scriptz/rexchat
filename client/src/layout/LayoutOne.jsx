@@ -7,13 +7,15 @@ const LayoutOne = () => {
 
 
   return (
-    <section className="flex h-screen w-screen overflow-hidden bg-bg">
+    <main className="flex h-screen w-screen overflow-hidden bg-bg">
       <Navbar
         activeConversation={activeConversation}
         onSelectConversation={setActiveConversation}
       />
-      <Outlet />
-    </section>
+      <section className='p-5 w-full overflow-y-auto flex h-screen '>
+        <Outlet />
+      </section>
+    </main>
   );
 };
 

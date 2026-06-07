@@ -27,7 +27,7 @@ const ChatInput = () => {
   return (
     <div
       id="chat-input"
-      className="flex-shrink-0 px-4 pb-4 pt-2"
+      className="flex-shrink-0 pt-2"
     >
       <div className={`flex items-end gap-2.5 px-4 py-3 rounded-2xl border transition-all duration-300 bg-surface/70 backdrop-blur-xl
         ${isFocused

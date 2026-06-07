@@ -18,7 +18,7 @@ const ChatHeader = ({ conversation }) => {
   return (
     <header
       id="chat-header"
-      className="h-[72px] flex items-center justify-between px-6 mx-4 mt-3 rounded-2xl border border-border/60 bg-surface/70 backdrop-blur-xl shadow-sm flex-shrink-0 animate-fade-in"
+      className="h-[72px] flex items-center justify-between px-6 rounded-2xl border border-border/60 bg-surface/70 shadow-sm flex-shrink-0 animate-fade-in"
     >
       {/* ─── Left: User Info ─── */}
       <div className="flex items-center gap-3.5">
