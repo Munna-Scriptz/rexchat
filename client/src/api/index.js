@@ -110,8 +110,9 @@ export const {
     useResetPasswordMutation,
     useSignupMutation,
     useSigninMutation,
-    useSignoutMutation
+    useSignoutMutation,
 
+    useGetConvoListQuery,
 
 
 } = api

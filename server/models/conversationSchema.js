@@ -13,7 +13,6 @@ const conversationSchema = new mongoose.Schema({
         required: true,
     },
 
-
     type: {
         type: String,
         default: "private",

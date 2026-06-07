@@ -41,12 +41,26 @@ const convoList = async (req, res) => {
                 { creator: req.user._id },
                 { participant: req.user._id },
             ]
-        }).populate("creator participant", "username displayName avatar -_id")
+        }).populate("creator participant", "username displayName avatar")
 
         if (!existingConvo) return resHandler.error(res, 400, "Conversation Doesn't exists")
 
+        const conversations = existingConvo.map(convo => {
+            const conversation = convo.toObject();
+
+            const isCreator = conversation.creator._id.toString() === req.user._id.toString();
+
+            const { creator, participant, ...rest } = conversation;
+
+            return {
+                ...rest,
+                chatUser: isCreator ? participant : creator,
+            };
+        });
+
+
         // ----------- Success 
-        resHandler.success(res, 201, "Convo data Fetched", existingConvo)
+        resHandler.success(res, 201, "Convo data Fetched", conversations)
     } catch (error) {
         resHandler.error(res, 500, "Internal server error")
     }
@@ -79,7 +93,7 @@ const sendMessage = async (req, res) => {
 
 // ════════════════════ Get Message ════════════════════
 const getMessage = async (req, res) => {
-    try { 
+    try {
         const { conversation } = req.params
 
         if (!conversation) return resHandler.error(res, 400, "Conversation is required")

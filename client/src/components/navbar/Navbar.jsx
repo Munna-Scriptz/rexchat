@@ -7,51 +7,52 @@ import NavSearch from './NavSearch';
 import NavTabs from './NavTabs';
 import NavUser from './NavUser';
 import NavConvoList from './NavConvoList';
+import { useGetConvoListQuery } from '../../api';
 
 /* ─── Mock Data ─── */
-const conversations = [
+const convs = [
     {
-        id: 1, name: 'Sophia Chen', initials: 'SC', gradient: 'from-violet-500 to-fuchsia-500',
+        id: 1, name: 'Sophia Chen',
         lastMessage: 'That design looks incredible! Let me review it...', time: '2m',
         unread: 3, status: 'online', pinned: true,
     },
     {
-        id: 2, name: 'Design Team', initials: 'DT', gradient: 'from-cyan-500 to-blue-500',
+        id: 2, name: 'Design Team',
         lastMessage: 'Alex: Pushed the new component library 🚀', time: '15m',
         unread: 12, status: 'online', isGroup: true,
     },
     {
-        id: 3, name: 'Marcus Rivera', initials: 'MR', gradient: 'from-amber-500 to-orange-500',
+        id: 3, name: 'Marcus Rivera',
         lastMessage: 'Can we hop on a quick call?', time: '1h',
         unread: 1, status: 'offline',
     },
     {
-        id: 4, name: 'Emma Watson', initials: 'EW', gradient: 'from-emerald-500 to-teal-500',
+        id: 4, name: 'Emma Watson',
         lastMessage: 'The API integration is complete ✅', time: '2h',
         unread: 0, status: 'online',
     },
     {
-        id: 5, name: 'RexChat Team', initials: 'RC', gradient: 'from-brand to-accent',
+        id: 5, name: 'RexChat Team',
         lastMessage: 'You: Shipped v2.0 to production', time: '3h',
         unread: 0, status: 'online', isGroup: true,
     },
     {
-        id: 6, name: 'Liam Park', initials: 'LP', gradient: 'from-rose-500 to-pink-500',
+        id: 6, name: 'Liam Park',
         lastMessage: 'Hey, are you free for lunch tomorrow?', time: '5h',
         unread: 0, status: 'offline',
     },
     {
-        id: 7, name: 'Aria Patel', initials: 'AP', gradient: 'from-indigo-500 to-violet-500',
+        id: 7, name: 'Aria Patel',
         lastMessage: 'I sent you the figma file', time: 'Yesterday',
         unread: 0, status: 'offline',
     },
     {
-        id: 8, name: 'Product Launch', initials: 'PL', gradient: 'from-sky-500 to-cyan-500',
+        id: 8, name: 'Product Launch',
         lastMessage: 'Nina: Timeline updated for Q3', time: 'Yesterday',
         unread: 0, status: 'online', isGroup: true,
     },
     {
-        id: 9, name: 'Jake Morrison', initials: 'JM', gradient: 'from-lime-500 to-green-500',
+        id: 9, name: 'Jake Morrison',
         lastMessage: 'Thanks for the feedback!', time: '2d',
         unread: 0, status: 'offline',
     },
@@ -59,12 +60,15 @@ const conversations = [
 
 
 const Navbar = ({ activeConversation, onSelectConversation }) => {
-
     const navItems = [
         { label: 'Chats', icon: <FiMessageSquare />, badge: 16 },
         { label: 'Unread', icon: <RiChatUnreadLine />, badge: 3 },
         { label: 'Groups', icon: <GrGroup />, badge: 3 },
     ];
+
+    // ------------ From server -----------
+    const { data: conversations, isLoading } = useGetConvoListQuery()
+    console.log(conversations)
 
     return (
         <aside id="Navbar" className="w-80 h-screen flex flex-col bg-surface border-r border-border flex-shrink-0 select-none">
@@ -78,7 +82,7 @@ const Navbar = ({ activeConversation, onSelectConversation }) => {
             <NavTabs navItems={navItems} />
 
             {/* ══════════ Conversation List ══════════ */}
-            <NavConvoList conversations={conversations} activeConversation={activeConversation} onSelectConversation={onSelectConversation} />
+            <NavConvoList conversations={conversations?.data} activeConversation={activeConversation} onSelectConversation={onSelectConversation} />
 
             {/* ══════════ User Profile ══════════ */}
             <NavUser />
