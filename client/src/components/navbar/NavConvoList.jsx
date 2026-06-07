@@ -1,8 +1,11 @@
 import React from 'react'
 import StatusDot from '../ui/StatusDot';
+import FormatTime from '../../utils/FormatTime';
+import { ConvoListSkeleton } from '../ui/SkeletonLoaders';
 
-const NavConvoList = ({ conversations, activeConversation, onSelectConversation }) => {
+const NavConvoList = ({ conversations, isLoading, activeConversation, onSelectConversation }) => {
 
+    if (isLoading) return <ConvoListSkeleton />
     return (
         <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5">
             {conversations?.map((conv, i) => {
@@ -50,7 +53,7 @@ const NavConvoList = ({ conversations, activeConversation, onSelectConversation 
                                     {conv.chatUser.displayName || conv.chatUser.username}
                                 </span>
                                 <span className={`text-[11px] flex-shrink-0 ml-2 ${conv.unread > 0 ? 'text-accent font-medium' : 'text-text-muted'}`}>
-                                    {conv.time}
+                                    {FormatTime(conv.updatedAt)}
                                 </span>
                             </div>
                             <div className="flex items-center justify-between">

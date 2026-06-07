@@ -83,6 +83,9 @@ const sendMessage = async (req, res) => {
             sender: req.user._id
         })
 
+        existingConvo.lastMessage = text
+        existingConvo.save()
+
         // ----------- Success 
         resHandler.success(res, 200, "Message sent")
     } catch (error) {

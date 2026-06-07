@@ -65,7 +65,7 @@ export const ProfileSkeleton = () => {
 export const UserSkeleton = () => {
     return (
         <div className="mt-5 grid grid-cols-1 lg:grid-cols-2 gap-4 animate-pulse w-full">
-            {[1, 2, 3, 4,5,6,7 ,8, 9, 10,11,12].map((index) => (
+            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((index) => (
                 <div
                     key={index}
                     className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-surface p-4"
@@ -96,3 +96,40 @@ export const UserSkeleton = () => {
         </div>
     )
 }
+
+export const ConvoListSkeleton = () => {
+    return (
+        <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5 animate-pulse">
+            {[1, 2, 3, 4, 5, 6].map((index) => (
+                <div
+                    key={index}
+                    className="w-full flex items-center gap-3 px-3 py-3 rounded-2xl border border-transparent bg-surface/40"
+                >
+                    {/* Avatar Placeholder */}
+                    <div className="relative flex-shrink-0">
+                        <div className="w-11 h-11 rounded-full bg-muted" />
+                        <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-muted border-2 border-surface" />
+                    </div>
+
+                    {/* Content Placeholder */}
+                    <div className="flex-1 min-w-0">
+                        {/* Top Line: Name and Time */}
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="h-4 bg-muted rounded w-28" />
+                            <div className="h-3 bg-muted rounded w-10" />
+                        </div>
+                        {/* Bottom Line: Message Preview and Badge */}
+                        <div className="flex items-center justify-between">
+                            <div className="h-3 bg-muted rounded w-44" />
+                            {/* Occasional placeholder for unread count badge */}
+                            {index % 2 === 0 && (
+                                <div className="w-5 h-5 rounded-full bg-muted flex-shrink-0" />
+                            )}
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    )
+}
+

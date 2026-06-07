@@ -82,7 +82,7 @@ const Navbar = ({ activeConversation, onSelectConversation }) => {
             <NavTabs navItems={navItems} />
 
             {/* ══════════ Conversation List ══════════ */}
-            <NavConvoList conversations={conversations?.data} activeConversation={activeConversation} onSelectConversation={onSelectConversation} />
+            <NavConvoList conversations={conversations?.data} isLoading={isLoading} activeConversation={activeConversation} onSelectConversation={onSelectConversation} />
 
             {/* ══════════ User Profile ══════════ */}
             <NavUser />
