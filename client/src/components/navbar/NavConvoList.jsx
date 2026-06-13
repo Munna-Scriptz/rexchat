@@ -2,19 +2,30 @@ import React from 'react'
 import StatusDot from '../ui/StatusDot';
 import FormatTime from '../../utils/FormatTime';
 import { ConvoListSkeleton } from '../ui/SkeletonLoaders';
+import { useNavigate, useParams } from 'react-router';
 
-const NavConvoList = ({ conversations, isLoading, activeConversation, onSelectConversation }) => {
+const NavConvoList = ({ conversations, isLoading }) => {
+    // ----------- Handle navigation 
+    const navigate = useNavigate()
+    const params = useParams()
 
+    const handleParams = (id) => {
+        navigate(`/${id}`)
+    }
+
+
+    // ----------- Skeleton loader 
     if (isLoading) return <ConvoListSkeleton />
+
     return (
         <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5">
             {conversations?.map((conv, i) => {
-                const isActive = activeConversation === conv._id;
+                const isActive = params?.id === conv._id;
                 return (
                     <button
                         key={i}
                         id={`conversation-${conv._id}`}
-                        onClick={() => onSelectConversation(conv._id)}
+                        onClick={() => handleParams(conv._id)}
                         className={`w-full flex items-center cursor-pointer gap-3 px-3 py-3 rounded-2xl transition-all duration-200 text-left group relative
                                 ${isActive
                                 ? 'bg-brand/10 border border-brand/20 shadow-[0_0_20px_rgba(109,40,217,0.1)]'
