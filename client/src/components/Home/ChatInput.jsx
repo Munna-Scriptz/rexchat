@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from 'react';
+import toast from 'react-hot-toast';
+import { useSendMessageMutation } from '../../api';
 
-const ChatInput = () => {
+const ChatInput = ({ conversation }) => {
   const [message, setMessage] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef(null);
+  const [createSend] = useSendMessageMutation()
 
   /* Auto-resize textarea */
   useEffect(() => {
@@ -14,15 +17,25 @@ const ChatInput = () => {
     }
   }, [message]);
 
+  // --------------- Handle Send messgae --------------
+  const sendMessage = async () => {
+    try {
+      setMessage("")
+      await createSend({ text: message, conversation }).unwrap()
+    } catch (error) {
+      toast.error(error?.data?.message)
+    }
+  };
+
+  // --------------- Handle key down --------------
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      if (message.trim()) {
-        // Send message logic would go here
-        setMessage('');
-      }
+      sendMessage()
     }
   };
+
+
 
   return (
     <div
@@ -76,6 +89,7 @@ const ChatInput = () => {
         {/* Send Button */}
         <button
           id="input-send-btn"
+          onClick={sendMessage}
           disabled={!message.trim()}
           className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 mb-0.5
             ${message.trim()

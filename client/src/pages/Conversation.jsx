@@ -6,12 +6,12 @@ import { useOutletContext, useParams } from 'react-router'
 import { useGetMessageQuery } from '../api'
 
 const Conversation = () => {
-    const params = useParams()?.id
+    const convoId = useParams()?.id
     const { userId } = useOutletContext();
 
     // -------------- Fetch Messages ---------------
-    const { data: messages, isFetching: isMessageFeching } = useGetMessageQuery(params)
-    
+    const { data: messages, isFetching: isMessageFeching } = useGetMessageQuery(convoId)
+
     return (
         <>
             <main id="Home" className="flex-1 flex flex-col bg-bg">
@@ -22,7 +22,7 @@ const Conversation = () => {
                 <ChatMessages messages={messages?.data} userId={userId} />
 
                 {/* Input */}
-                <ChatInput />
+                <ChatInput conversation={convoId} />
             </main>
         </>
     )

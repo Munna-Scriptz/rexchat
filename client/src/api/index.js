@@ -126,5 +126,5 @@ export const {
 
     useGetConvoListQuery,
     useGetMessageQuery,
-
+    useSendMessageMutation,
 } = api

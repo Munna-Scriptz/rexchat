@@ -45,8 +45,8 @@ const DateSeparator = ({ text }) => (
 );
 
 /* ─── Message Bubble ─── */
-const MessageBubble = ({ message, index,userId }) => {
-  const isMe = message.sender !== userId;
+const MessageBubble = ({ message, index, userId }) => {
+  const isMe = message.sender == userId;
 
   return (
     <div
@@ -110,7 +110,7 @@ const ChatMessages = ({ messages, userId }) => {
         msg.type === 'date' ? (
           <DateSeparator key={i} text={msg.text} />
         ) : (
-          <MessageBubble key={i} message={msg} index={i} />
+          <MessageBubble key={i} message={msg} userId={userId} index={i} />
         )
       )}
 
