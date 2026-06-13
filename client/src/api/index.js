@@ -37,7 +37,7 @@ export const api = createApi({
     tagTypes: ["auth"],
 
     endpoints: (build) => ({
-        // ============== User and auth ==============
+        // ════════════════════ User and auth ════════════════════
         getProfile: build.query({
             query: () => "/auth/profile",
             providesTags: ["auth"],
@@ -92,9 +92,21 @@ export const api = createApi({
         }),
 
 
-        // ============== Conversation & Chat ==============
+        // ════════════════════ Conversation & Chat ════════════════════
         getConvoList: build.query({
             query: () => "/conv/list",
+        }),
+
+        getMessage: build.query({
+            query: (convId) => `/conv/messages/${convId}`,
+        }),
+
+        sendMessage: build.mutation({
+            query: (data) => ({
+                url: "/conv/send-message",
+                method: "POST",
+                body: data,
+            }),
         }),
 
     }),
@@ -113,6 +125,6 @@ export const {
     useSignoutMutation,
 
     useGetConvoListQuery,
-
+    useGetMessageQuery,
 
 } = api

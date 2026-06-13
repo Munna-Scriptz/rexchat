@@ -45,8 +45,8 @@ const DateSeparator = ({ text }) => (
 );
 
 /* ─── Message Bubble ─── */
-const MessageBubble = ({ message, index }) => {
-  const isMe = message.sender === 'me';
+const MessageBubble = ({ message, index,userId }) => {
+  const isMe = message.sender !== userId;
 
   return (
     <div
@@ -91,7 +91,7 @@ const MessageBubble = ({ message, index }) => {
 };
 
 /* ─── Main Component ─── */
-const ChatMessages = () => {
+const ChatMessages = ({ messages, userId }) => {
   const scrollRef = useRef(null);
 
   useEffect(() => {
@@ -106,11 +106,11 @@ const ChatMessages = () => {
       ref={scrollRef}
       className="flex-1 overflow-y-auto py-2 space-y-1"
     >
-      {mockMessages.map((msg, index) =>
+      {messages?.map((msg, i) =>
         msg.type === 'date' ? (
-          <DateSeparator key={msg.id} text={msg.text} />
+          <DateSeparator key={i} text={msg.text} />
         ) : (
-          <MessageBubble key={msg.id} message={msg} index={index} />
+          <MessageBubble key={i} message={msg} index={i} />
         )
       )}
 
