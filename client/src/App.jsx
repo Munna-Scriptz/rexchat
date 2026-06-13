@@ -7,8 +7,6 @@ import Users from './pages/Users';
 import AuthLayout from './layout/AuthLayout';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
-import { ApiProvider } from '@reduxjs/toolkit/query/react';
-import { api } from './api';
 import { Toaster } from 'react-hot-toast';
 
 import UserLayout from './layout/UserLayout';
@@ -55,31 +53,12 @@ const App = () => {
         toastOptions={{
           className: 'custom-toast',
           duration: 3000,
-
-
-          success: {
-            className: 'custom-toast custom-toast-success',
-            iconTheme: {
-              primary: '#22C55E',
-            },
-          },
-          error: {
-            className: 'custom-toast custom-toast-error',
-            iconTheme: {
-              primary: '#EF4444',
-            },
-          },
-          loading: {
-            className: 'custom-toast custom-toast-loading',
-            iconTheme: {
-              primary: '#6D28D9',
-            },
-          },
+          success: { className: 'custom-toast custom-toast-success', iconTheme: { primary: '#22C55E' } },
+          error: { className: 'custom-toast custom-toast-error', iconTheme: { primary: '#EF4444' } },
+          loading: { className: 'custom-toast custom-toast-loading', iconTheme: { primary: '#6D28D9' } },
         }}
       />
-      <ApiProvider api={api}>
-        <RouterProvider router={myRoute} />
-      </ApiProvider>
+      <RouterProvider router={myRoute} />
     </>
   )
 }
