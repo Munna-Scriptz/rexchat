@@ -73,6 +73,9 @@ const sendMessage = async (req, res) => {
         const { text, conversation } = req.body
 
         // ---------- Existing Convo ------------
+        if (!text) return resHandler.error(res, 400, "Text Content is required")
+        if (!conversation) return resHandler.error(res, 400, "Conversation is required")
+            
         const existingConvo = await conversationSchema.findOne({ _id: conversation })
         if (!existingConvo) return resHandler.error(res, 400, "Conversation doesn't exists")
 
@@ -89,6 +92,7 @@ const sendMessage = async (req, res) => {
         // ----------- Success 
         resHandler.success(res, 200, "Message sent")
     } catch (error) {
+        console.log(error)
         resHandler.error(res, 500, "Internal server error")
     }
 }

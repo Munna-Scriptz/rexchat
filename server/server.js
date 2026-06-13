@@ -24,7 +24,11 @@ const io = new Server(server, { cors: { origin: "http://localhost:5173", credent
 
 // ════════════════════ Socket io ════════════════════
 io.on('connection', (socket) => {
-    console.log('a user connected');
+
+    // ------- Join room single 
+    socket.on("join_room", (convId)=>{
+        socket.join(convId)
+    })
 });
 
 
