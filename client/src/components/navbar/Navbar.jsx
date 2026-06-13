@@ -59,7 +59,7 @@ const convs = [
 ];
 
 
-const Navbar = ({ activeConversation, onSelectConversation }) => {
+const Navbar = () => {
     // ------------ From server -----------
     const { data: conversations, isLoading } = useGetConvoListQuery()
 
@@ -82,7 +82,7 @@ const Navbar = ({ activeConversation, onSelectConversation }) => {
             <NavTabs navItems={navItems} />
 
             {/* ══════════ Conversation List ══════════ */}
-            <NavConvoList conversations={conversations?.data} isLoading={isLoading} activeConversation={activeConversation} onSelectConversation={onSelectConversation} />
+            <NavConvoList conversations={conversations?.data} isLoading={isLoading} />
 
             {/* ══════════ User Profile ══════════ */}
             <NavUser />

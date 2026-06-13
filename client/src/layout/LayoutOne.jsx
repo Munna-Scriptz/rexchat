@@ -5,17 +5,12 @@ import { useGetProfileQuery } from '../api';
 import AuthModal from '../components/modals/AuthModal';
 
 const LayoutOne = () => {
-  const [activeConversation, setActiveConversation] = useState(1);
   const { data: user, isFetching } = useGetProfileQuery()
-
-  if (!user) return <AuthModal isOpen={true} message={"You need to be signed in to use this app"} />
+  if (!isFetching && !user) return <AuthModal isOpen={true} message={"You need to be signed in to use this app"} />
 
   return (
     <main className="flex h-screen w-screen overflow-hidden bg-bg">
-      <Navbar
-        activeConversation={activeConversation}
-        onSelectConversation={setActiveConversation}
-      />
+      <Navbar />
       <section className='p-5 w-full overflow-y-auto flex h-screen '>
         <Outlet />
       </section>
