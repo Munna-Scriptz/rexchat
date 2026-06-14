@@ -63,11 +63,15 @@ const Navbar = () => {
     // ------------ From server -----------
     const { data: conversations, isLoading } = useGetConvoListQuery()
 
+    // ------------ NavItems -----------
     const navItems = [
         { label: 'Chats', icon: <FiMessageSquare />, badge: conversations?.data?.length || 0 },
         { label: 'Unread', icon: <RiChatUnreadLine />, badge: 3 },
         { label: 'Groups', icon: <GrGroup />, badge: 3 },
     ];
+
+    // ------------ Socket connect -----------
+
 
 
     return (

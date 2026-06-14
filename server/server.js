@@ -29,6 +29,8 @@ io.on('connection', (socket) => {
     socket.on("join_room", (convId)=>{
         socket.join(convId)
     })
+
+    console.log("USer connected")
 });
 
 
