@@ -19,7 +19,7 @@ const Conversation = () => {
         <>
             <main id="Home" className="flex-1 flex flex-col bg-bg">
                 {/* Floating Header */}
-                <ChatHeader />
+                <ChatHeader conversation={chatUser?.data} isLoading={isConvFetching} />
 
                 {/* Messages */}
                 <ChatMessages messages={messageList} userId={userId} />

@@ -1,9 +1,12 @@
 import React from 'react';
+import StatusDot from '../ui/StatusDot';
+import { ChatHeaderSkeleton } from '../ui/SkeletonLoaders';
 
-const ChatHeader = ({ conversation }) => {
-  const conv = conversation || {
-    name: 'Sophia Chen',
-    initials: 'SC',
+const ChatHeader = ({ conversation, isLoading }) => {
+  const conv = {
+    name: conversation?.chatUser?.displayName || conversation?.chatUser?.username,
+    avatar: conversation?.chatUser?.avatar,
+    initials: conversation?.chatUser?.displayName?.slice(0, 2) || conversation?.chatUser?.username?.slice(0, 2),
     gradient: 'from-violet-500 to-fuchsia-500',
     status: 'online',
     isTyping: true,
@@ -15,6 +18,8 @@ const ChatHeader = ({ conversation }) => {
     offline: 'Offline',
   };
 
+  if (isLoading) return <ChatHeaderSkeleton />
+
   return (
     <header
       id="chat-header"
@@ -23,11 +28,21 @@ const ChatHeader = ({ conversation }) => {
       {/* ─── Left: User Info ─── */}
       <div className="flex items-center gap-3.5">
         <div className="relative">
-          <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${conv.gradient} flex items-center justify-center text-white text-sm font-bold shadow-sm`}>
-            {conv.initials}
+          {
+            conversation?.chatUser?.avatar ?
+              <div className="w-10 h-10 rounded-full overflow-hidden">
+                <img src={conv?.avatar} alt="avatar" />
+              </div>
+              :
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white text-sm font-bold">
+                {conv.initials}
+              </div>
+          }
+          <div className="absolute -bottom-0.5 -right-0.5">
+            <StatusDot status={conv?.status} />
           </div>
-          <span className={`absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full border-2 border-surface ${conv.status === 'online' ? 'bg-online' : conv.status === 'away' ? 'bg-away' : 'bg-offline'}`} />
         </div>
+
         <div>
           <h2 className="text-[15px] font-semibold text-text-primary leading-tight">{conv.name}</h2>
           {conv.isTyping ? (

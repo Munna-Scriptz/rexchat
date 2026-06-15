@@ -133,3 +133,33 @@ export const ConvoListSkeleton = () => {
     )
 }
 
+export const ChatHeaderSkeleton = () => {
+    return (
+        <header
+            className="h-[72px] flex items-center justify-between px-6 rounded-2xl border border-border/60 bg-surface/70 shadow-sm flex-shrink-0 animate-pulse"
+        >
+            {/* ─── Left: User Info Placeholder ─── */}
+            <div className="flex items-center gap-3.5">
+                <div className="relative">
+                    <div className="w-10 h-10 rounded-full bg-muted" />
+                    <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full bg-muted border-2 border-surface" />
+                </div>
+
+                <div className="space-y-1.5">
+                    <div className="h-4 bg-muted rounded w-24" />
+                    <div className="h-3 bg-muted rounded w-14" />
+                </div>
+            </div>
+
+            {/* ─── Right: Action Buttons Placeholder ─── */}
+            <div className="flex items-center gap-1">
+                <div className="w-10 h-10 rounded-xl bg-muted" />
+                <div className="w-10 h-10 rounded-xl bg-muted" />
+                <div className="w-10 h-10 rounded-xl bg-muted" />
+                <div className="w-px h-6 bg-border mx-1" />
+                <div className="w-10 h-10 rounded-xl bg-muted" />
+            </div>
+        </header>
+    );
+};
+
