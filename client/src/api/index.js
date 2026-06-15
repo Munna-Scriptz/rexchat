@@ -97,6 +97,10 @@ export const api = createApi({
             query: () => "/conv/list",
         }),
 
+        getConvoSingle: build.query({
+            query: (convId) => `/conv/single/${convId}`
+        }),
+
         getMessage: build.query({
             query: (convId) => `/conv/messages/${convId}`,
         }),
@@ -125,6 +129,7 @@ export const {
     useSignoutMutation,
 
     useGetConvoListQuery,
+    useGetConvoSingleQuery,
     useGetMessageQuery,
     useSendMessageMutation,
 } = api

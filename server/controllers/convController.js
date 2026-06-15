@@ -66,6 +66,35 @@ const convoList = async (req, res) => {
     }
 }
 
+// ════════════════════ Single Convo ════════════════════
+const convoSingle = async (req, res) => {
+    try {
+        const convId = req.params.id
+
+        // ---------- Existing Convo ------------
+        const existingConvo = await conversationSchema.findOne({
+            _id: convId
+        }).populate("creator participant", "username displayName avatar")
+
+        if (!existingConvo) return resHandler.error(res, 400, "Conversation Doesn't exists")
+
+
+        const conversation = existingConvo.toObject();
+        const isCreator = conversation.creator._id.toString() === req.user._id.toString();
+        const { creator, participant, ...rest } = conversation;
+        const formattedConversation = {
+            ...rest,
+            chatUser: isCreator ? participant : creator,
+        };
+
+
+        // ----------- Success 
+        resHandler.success(res, 201, "Convo data Fetched", formattedConversation)
+    } catch (error) {
+        resHandler.error(res, 500, "Internal server error")
+    }
+}
+
 
 // ════════════════════ Send Message ════════════════════
 const sendMessage = async (req, res) => {
@@ -117,4 +146,4 @@ const getMessage = async (req, res) => {
     }
 }
 
-module.exports = { createPrivateConvo, convoList, sendMessage, getMessage }
+module.exports = { createPrivateConvo, convoList, convoSingle, sendMessage, getMessage }

@@ -78,7 +78,7 @@ const Navbar = () => {
                 socket.emit("join_room", conv._id)
             });
         }
-    }, [isLoading])
+    }, [conversations])
 
 
     return (
