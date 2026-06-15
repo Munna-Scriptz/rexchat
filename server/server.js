@@ -32,10 +32,21 @@ io.on('connection', (socket) => {
 
     socket.on("typing", ({ convId, username }) => {
         socket.to(convId).emit("user_typing", { username });
-    }); 
+    });
 
     socket.on("stop_typing", ({ convId }) => {
         socket.to(convId).emit("user_stopped_typing");
+    });
+
+
+    // ---------- Connection and disconnection --------------
+    socket.on("user_connected", (userId) => {
+        socket.userId = userId;
+        // Broadcast to everyone that this user is online
+        socket.broadcast.emit("user_status_change", {
+            userId: userId,
+            status: "online"
+        });
     });
 });
 

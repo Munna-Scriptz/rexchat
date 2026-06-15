@@ -51,9 +51,7 @@ const App = () => {
 
 
   // ------------ connect the socket -------------
-  useEffect(() => {
-    initSocket()
-  }, [])
+  
   return (
     <>
       <Toaster

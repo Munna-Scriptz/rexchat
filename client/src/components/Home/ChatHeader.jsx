@@ -21,7 +21,6 @@ const ChatHeader = ({ conversation, isLoading }) => {
     offline: 'Offline',
   };
 
-  console.log(typingUser)
   useEffect(() => {
     if (!socket) return;
     socket.on("user_typing", (data) => {

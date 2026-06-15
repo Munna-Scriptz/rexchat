@@ -4,12 +4,19 @@ import { addMessage } from "../redux/slices/messagesSlice"
 
 let socket
 
-const initSocket = () => {
+// Accept userId as a parameter
+const initSocket = (userId) => {
     socket = io.connect(import.meta.env.VITE_API_URL)
+
+    socket.on("connect", () => {
+        if (userId) {
+            socket.emit("user_connected", userId);
+        }
+    });
 
     socket.on("new_message", (res) => {
         store.dispatch(addMessage(res))
-    })
+    });
 }
 
 export { socket, initSocket }

@@ -3,10 +3,8 @@ import { Link } from 'react-router';
 import { FiLogOut } from 'react-icons/fi';
 import { LuSettings } from 'react-icons/lu';
 import StatusDot from '../ui/StatusDot';
-import { useGetProfileQuery } from '../../api';
 
-const NavUser = () => {
-    const { data: user, isFetching } = useGetProfileQuery()
+const NavUser = ({ user, isFetching }) => {
 
 
     return (
