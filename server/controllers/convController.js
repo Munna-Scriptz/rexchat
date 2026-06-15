@@ -80,15 +80,15 @@ const sendMessage = async (req, res) => {
         if (!existingConvo) return resHandler.error(res, 400, "Conversation doesn't exists")
 
         // ---------- Create Message ------------
-        await messageSchema.create({
+        const message = await messageSchema.create({
             conversation,
             text,
             sender: req.user._id
         })
 
         existingConvo.lastMessage = text
-        existingConvo.save()
-        global.io.to(conversation).emit("new_message", text);
+        await existingConvo.save()
+        global.io.to(conversation).emit("new_message", message);
         // ----------- Success 
         resHandler.success(res, 200, "Message sent")
     } catch (error) {

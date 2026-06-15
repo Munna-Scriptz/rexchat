@@ -13,7 +13,7 @@ const Conversation = () => {
     // -------------- Fetch Messages ---------------
     const { isFetching } = useGetMessageQuery(convoId)
     const messageList = useSelector((state) => state.messages.messages)
-
+    console.log(messageList)
 
     return (
         <>
@@ -22,7 +22,7 @@ const Conversation = () => {
                 <ChatHeader />
 
                 {/* Messages */}
-                <ChatMessages messages={messageList?.data} userId={userId} />
+                <ChatMessages messages={messageList} userId={userId} />
 
                 {/* Input */}
                 <ChatInput conversation={convoId} />

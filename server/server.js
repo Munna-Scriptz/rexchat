@@ -21,21 +21,21 @@ app.use(cors({
     credentials: true,
 }))
 const io = new Server(server, { cors: { origin: "http://localhost:5173", credentials: true, } });
-
+global.io = io
 // ════════════════════ Socket io ════════════════════
 io.on('connection', (socket) => {
 
     // ------- Join room single 
-    socket.on("join_room", (convId)=>{
+    socket.on("join_room", (convId) => {
         socket.join(convId)
     })
-
-    console.log("Uuer connected")
+    console.log(`user connected`)
+    
 });
 
 
-// set io in req
-global.io = io;
+
+
 // ════════════════════ Routes ════════════════════
 app.use(router)
 

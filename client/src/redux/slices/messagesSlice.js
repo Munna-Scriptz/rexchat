@@ -16,8 +16,8 @@ const messagesSlice = createSlice({
         builder.addMatcher(
             api.endpoints.getMessage.matchFulfilled,
             (state, action) => {
-                state.messages = action.payload;
-            },
+                state.messages = action.payload.data;
+            }
         )
     },
 });

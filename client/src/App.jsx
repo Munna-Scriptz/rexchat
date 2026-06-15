@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router";
 import LayoutOne from './layout/LayoutOne';
@@ -18,6 +18,7 @@ import Preferences from './pages/user/Preferences';
 import Security from './pages/user/Security';
 import Groups from './pages/user/Groups';
 import Blocked from './pages/user/Blocked';
+import { initSocket } from './api/socketApi';
 
 
 const App = () => {
@@ -48,6 +49,11 @@ const App = () => {
     </Route>
   ));
 
+
+  // ------------ connect the socket -------------
+  useEffect(() => {
+    initSocket()
+  }, [])
   return (
     <>
       <Toaster

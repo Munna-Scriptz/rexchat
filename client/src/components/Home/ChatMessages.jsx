@@ -98,7 +98,7 @@ const ChatMessages = ({ messages, userId }) => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, []);
+  }, [messages]);
 
   return (
     <div

@@ -8,7 +8,7 @@ import NavTabs from './NavTabs';
 import NavUser from './NavUser';
 import NavConvoList from './NavConvoList';
 import { useGetConvoListQuery } from '../../api';
-import { initSocket, socket } from '../../api/socketApi';
+import { socket } from '../../api/socketApi';
 
 /* ─── Mock Data ─── */
 const convs = [
@@ -70,16 +70,15 @@ const Navbar = () => {
         { label: 'Unread', icon: <RiChatUnreadLine />, badge: 3 },
         { label: 'Groups', icon: <GrGroup />, badge: 3 },
     ];
-
+    
     // ------------ Socket connect -----------
     useEffect(() => {
-        initSocket()
         if (conversations) {
-            conversations?.forEach(items => {
-                socket.emit("join_room", items._id)
-            })
+            conversations?.data?.forEach(conv => {
+                socket.emit("join_room", conv._id)
+            });
         }
-    }, [])
+    }, [isLoading])
 
 
     return (
