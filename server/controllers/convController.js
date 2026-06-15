@@ -75,7 +75,7 @@ const sendMessage = async (req, res) => {
         // ---------- Existing Convo ------------
         if (!text) return resHandler.error(res, 400, "Text Content is required")
         if (!conversation) return resHandler.error(res, 400, "Conversation is required")
-            
+
         const existingConvo = await conversationSchema.findOne({ _id: conversation })
         if (!existingConvo) return resHandler.error(res, 400, "Conversation doesn't exists")
 
@@ -88,7 +88,7 @@ const sendMessage = async (req, res) => {
 
         existingConvo.lastMessage = text
         existingConvo.save()
-
+        global.io.to(conversation).emit("new_message", text);
         // ----------- Success 
         resHandler.success(res, 200, "Message sent")
     } catch (error) {

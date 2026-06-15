@@ -30,11 +30,12 @@ io.on('connection', (socket) => {
         socket.join(convId)
     })
 
-    console.log("USer connected")
+    console.log("Uuer connected")
 });
 
 
-
+// set io in req
+global.io = io;
 // ════════════════════ Routes ════════════════════
 app.use(router)
 

@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import { api } from '../api'
+import messagesSlice from "./slices/messagesSlice"
 
 export const store = configureStore({
     reducer: {
+        messages: messagesSlice,
         [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),

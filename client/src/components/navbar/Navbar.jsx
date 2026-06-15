@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FiMessageSquare } from "react-icons/fi";
 import { GrGroup } from "react-icons/gr";
 import { RiChatUnreadLine } from "react-icons/ri";
@@ -8,6 +8,7 @@ import NavTabs from './NavTabs';
 import NavUser from './NavUser';
 import NavConvoList from './NavConvoList';
 import { useGetConvoListQuery } from '../../api';
+import { initSocket, socket } from '../../api/socketApi';
 
 /* ─── Mock Data ─── */
 const convs = [
@@ -71,7 +72,14 @@ const Navbar = () => {
     ];
 
     // ------------ Socket connect -----------
-
+    useEffect(() => {
+        initSocket()
+        if (conversations) {
+            conversations?.forEach(items => {
+                socket.emit("join_room", items._id)
+            })
+        }
+    }, [])
 
 
     return (
