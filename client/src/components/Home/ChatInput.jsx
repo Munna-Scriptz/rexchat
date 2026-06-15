@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { useSendMessageMutation } from '../../api';
+import { socket } from '../../api/socketApi';
 
-const ChatInput = ({ conversation }) => {
+const ChatInput = ({ conversation, username }) => {
   const [message, setMessage] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const textareaRef = useRef(null);
@@ -35,7 +36,32 @@ const ChatInput = ({ conversation }) => {
     }
   };
 
+  // --------------- Typing indecator --------------
+  const typingTimeoutRef = useRef(null);
+  const isTypingRef = useRef(false);
 
+  const handleInputChange = (e) => {
+    setMessage(e)
+
+    if (!isTypingRef.current) {
+      isTypingRef.current = true;
+
+      socket.emit("typing", {
+        convId: conversation,
+        username
+      });
+    }
+
+    clearTimeout(typingTimeoutRef.current);
+
+    typingTimeoutRef.current = setTimeout(() => {
+      isTypingRef.current = false;
+
+      socket.emit("stop_typing", {
+        convId: conversation
+      });
+    }, 2000);
+  };
 
   return (
     <div
@@ -66,7 +92,7 @@ const ChatInput = ({ conversation }) => {
             id="message-input"
             rows={1}
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(e) => handleInputChange(e.target.value)}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
             onKeyDown={handleKeyDown}

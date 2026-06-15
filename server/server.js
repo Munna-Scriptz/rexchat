@@ -29,10 +29,17 @@ io.on('connection', (socket) => {
     socket.on("join_room", (convId) => {
         socket.join(convId)
     })
-    
-}); 
 
- 
+    socket.on("typing", ({ convId, username }) => {
+        socket.to(convId).emit("user_typing", { username });
+    }); 
+
+    socket.on("stop_typing", ({ convId }) => {
+        socket.to(convId).emit("user_stopped_typing");
+    });
+});
+
+
 
 
 // ════════════════════ Routes ════════════════════

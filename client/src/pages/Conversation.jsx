@@ -25,7 +25,7 @@ const Conversation = () => {
                 <ChatMessages messages={messageList} userId={userId} />
 
                 {/* Input */}
-                <ChatInput conversation={convoId} />
+                <ChatInput conversation={convoId} username={chatUser?.data.chatUser.username}/>
             </main>
         </>
     )

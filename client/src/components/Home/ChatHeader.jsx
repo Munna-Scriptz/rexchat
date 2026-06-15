@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import StatusDot from '../ui/StatusDot';
 import { ChatHeaderSkeleton } from '../ui/SkeletonLoaders';
+import { socket } from '../../api/socketApi';
 
 const ChatHeader = ({ conversation, isLoading }) => {
+  const [typingUser, setTypingUser] = useState(false);
+
   const conv = {
     name: conversation?.chatUser?.displayName || conversation?.chatUser?.username,
     avatar: conversation?.chatUser?.avatar,
     initials: conversation?.chatUser?.displayName?.slice(0, 2) || conversation?.chatUser?.username?.slice(0, 2),
     gradient: 'from-violet-500 to-fuchsia-500',
     status: 'online',
-    isTyping: true,
+    isTyping: typingUser,
   };
 
   const statusLabel = {
@@ -17,6 +20,18 @@ const ChatHeader = ({ conversation, isLoading }) => {
     away: 'Away',
     offline: 'Offline',
   };
+
+  console.log(typingUser)
+  useEffect(() => {
+    if (!socket) return;
+    socket.on("user_typing", (data) => {
+      setTypingUser(true);
+    });
+
+    socket.on("user_stopped_typing", () => {
+      setTypingUser(false);
+    });
+  }, [socket]);
 
   if (isLoading) return <ChatHeaderSkeleton />
 
