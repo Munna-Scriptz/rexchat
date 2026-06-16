@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import StatusDot from '../ui/StatusDot';
 import { ChatHeaderSkeleton } from '../ui/SkeletonLoaders';
 import { socket } from '../../api/socketApi';
+import { useSelector } from 'react-redux';
 
 const ChatHeader = ({ conversation, isLoading }) => {
   const [typingUser, setTypingUser] = useState(false);
+
+  // ------------ Online status ------------
+  const onlineUsers = useSelector((state) => state.onlineUsers.users)
 
   const conv = {
     name: conversation?.chatUser?.displayName || conversation?.chatUser?.username,
@@ -13,12 +17,6 @@ const ChatHeader = ({ conversation, isLoading }) => {
     gradient: 'from-violet-500 to-fuchsia-500',
     status: 'online',
     isTyping: typingUser,
-  };
-
-  const statusLabel = {
-    online: 'Online',
-    away: 'Away',
-    offline: 'Offline',
   };
 
   useEffect(() => {
@@ -48,12 +46,12 @@ const ChatHeader = ({ conversation, isLoading }) => {
                 <img src={conv?.avatar} alt="avatar" />
               </div>
               :
-              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-brand-light flex items-center justify-center text-white text-sm font-bold">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-brand to-accent flex items-center justify-center text-white text-sm font-bold">
                 {conv.initials}
               </div>
           }
           <div className="absolute -bottom-0.5 -right-0.5">
-            <StatusDot status={conv?.status} />
+            <StatusDot status={onlineUsers.includes(conversation?.chatUser?._id) ? "online" : "offline"} />
           </div>
         </div>
 
@@ -69,7 +67,7 @@ const ChatHeader = ({ conversation, isLoading }) => {
               <span className="text-[11px] text-accent font-medium">typing</span>
             </div>
           ) : (
-            <p className="text-[11px] text-text-muted mt-0.5">{statusLabel[conv.status] || 'Offline'}</p>
+            <p className="text-[11px] text-text-muted mt-0.5">{onlineUsers.includes(conversation?.chatUser?._id) ? "online" : "offline"}</p>
           )}
         </div>
       </div>
