@@ -7,8 +7,8 @@ import { useSelector } from 'react-redux';
 
 const NavConvoList = ({ conversations, isLoading }) => {
     // ----------- Handle navigation 
-    const userStatus = useSelector((state)=>state.user.status)
-    console.log(userStatus)
+    const onlineUsers = useSelector((state) => state.onlineUsers.users)
+    
     // ----------- Handle navigation 
     const navigate = useNavigate()
     const params = useParams()
@@ -57,7 +57,7 @@ const NavConvoList = ({ conversations, isLoading }) => {
                                     </div>
                             }
                             <div className="absolute -bottom-0.5 -right-0.5">
-                                <StatusDot status={userStatus} />
+                                <StatusDot status={onlineUsers.includes(conv?.chatUser?._id) ? "online" : "offline"} />
                             </div>
                         </div>
 

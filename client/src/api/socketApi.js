@@ -1,7 +1,7 @@
 import io from "socket.io-client"
 import { store } from "../redux/store"
 import { addMessage } from "../redux/slices/messagesSlice"
-import { addStatus, addUserId } from "../redux/slices/userStatusSlice"
+import { addOnlineUser, setOnlineUsers } from "../redux/slices/onlineUserSlice"
 
 let socket
 
@@ -14,10 +14,15 @@ const initSocket = (userId) => {
             socket.emit("user_connected", userId);
         }
 
-        socket.on('user_status_change', (data) => {
+        socket.on("initial_online_users", (onlineUserIds) => {
+            store.dispatch(setOnlineUsers(onlineUserIds));
+        });
+
+        socket.on('user-status-changed', (data) => {
             const { userId, status } = data;
-            store.dispatch(addUserId(userId))
-            store.dispatch(addStatus(status))
+            if (status === "online") {
+                store.dispatch(addOnlineUser(userId));
+            }
         });
     });
 

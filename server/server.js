@@ -23,6 +23,8 @@ app.use(cors({
 const io = new Server(server, { cors: { origin: "http://localhost:5173", credentials: true, } });
 global.io = io
 // ════════════════════ Socket io ════════════════════
+const activeUsers = {};
+
 io.on('connection', (socket) => {
 
     // ------- Join room single 
@@ -42,13 +44,20 @@ io.on('connection', (socket) => {
     // ---------- Connection and disconnection --------------
     socket.on("user_connected", (userId) => {
         socket.userId = userId;
-        
+
+        // 1. Save the user to our memory list
+        activeUsers[userId] = socket.id;
+
+        // 2. Send the list of ALL online user IDs back to just this connecting user
+        socket.emit("initial_online_users", Object.keys(activeUsers));
+
+        // 3. Broadcast to everyone else that this user just came online
         socket.broadcast.emit("user_status_change", {
             userId: userId,
             status: "online"
         });
 
-        console.log(`userZ online ${userId}`)
+        console.log(`user online ${userId}`)
     });
 });
 
