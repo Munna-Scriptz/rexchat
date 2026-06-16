@@ -1,6 +1,7 @@
 import io from "socket.io-client"
 import { store } from "../redux/store"
 import { addMessage } from "../redux/slices/messagesSlice"
+import { addStatus, addUserId } from "../redux/slices/userStatusSlice"
 
 let socket
 
@@ -12,6 +13,12 @@ const initSocket = (userId) => {
         if (userId) {
             socket.emit("user_connected", userId);
         }
+
+        socket.on('user_status_change', (data) => {
+            const { userId, status } = data;
+            store.dispatch(addUserId(userId))
+            store.dispatch(addStatus(status))
+        });
     });
 
     socket.on("new_message", (res) => {

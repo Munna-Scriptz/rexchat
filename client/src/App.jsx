@@ -19,6 +19,7 @@ import Security from './pages/user/Security';
 import Groups from './pages/user/Groups';
 import Blocked from './pages/user/Blocked';
 import { initSocket } from './api/socketApi';
+import { useGetProfileQuery } from './api';
 
 
 const App = () => {
@@ -51,7 +52,11 @@ const App = () => {
 
 
   // ------------ connect the socket -------------
-  
+  const { data: user } = useGetProfileQuery()
+  useEffect(() => {
+    initSocket(user?.data?._id)
+  }, [user?.data])
+
   return (
     <>
       <Toaster

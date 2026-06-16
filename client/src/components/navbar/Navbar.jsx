@@ -72,10 +72,6 @@ const Navbar = () => {
         { label: 'Groups', icon: <GrGroup />, badge: 3 },
     ];
 
-    // ------------ Socket connect -----------
-    useEffect(() => {
-        initSocket(user?.data?._id)
-    }, [])
 
     useEffect(() => {
         if (conversations) {

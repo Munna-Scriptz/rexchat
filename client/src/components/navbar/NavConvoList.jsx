@@ -3,8 +3,12 @@ import StatusDot from '../ui/StatusDot';
 import FormatTime from '../../utils/FormatTime';
 import { ConvoListSkeleton } from '../ui/SkeletonLoaders';
 import { useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 
 const NavConvoList = ({ conversations, isLoading }) => {
+    // ----------- Handle navigation 
+    const userStatus = useSelector((state)=>state.user.status)
+    console.log(userStatus)
     // ----------- Handle navigation 
     const navigate = useNavigate()
     const params = useParams()
@@ -53,7 +57,7 @@ const NavConvoList = ({ conversations, isLoading }) => {
                                     </div>
                             }
                             <div className="absolute -bottom-0.5 -right-0.5">
-                                <StatusDot status={conv.status} />
+                                <StatusDot status={userStatus} />
                             </div>
                         </div>
 

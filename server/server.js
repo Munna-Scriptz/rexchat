@@ -42,11 +42,13 @@ io.on('connection', (socket) => {
     // ---------- Connection and disconnection --------------
     socket.on("user_connected", (userId) => {
         socket.userId = userId;
-        // Broadcast to everyone that this user is online
+        
         socket.broadcast.emit("user_status_change", {
             userId: userId,
             status: "online"
         });
+
+        console.log(`userZ online ${userId}`)
     });
 });
 
