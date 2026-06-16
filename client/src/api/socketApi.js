@@ -1,14 +1,14 @@
 import io from "socket.io-client"
 import { store } from "../redux/store"
 import { addMessage } from "../redux/slices/messagesSlice"
-import { addOnlineUser, setOnlineUsers } from "../redux/slices/onlineUserSlice"
+import { addOnlineUser, removeOnlineUser, setOnlineUsers } from "../redux/slices/onlineUserSlice"
 
 let socket
 
-// Accept userId as a parameter
 const initSocket = (userId) => {
     socket = io.connect(import.meta.env.VITE_API_URL)
 
+    // -------------- User online status --------------
     socket.on("connect", () => {
         if (userId) {
             socket.emit("user_connected", userId);
@@ -18,10 +18,12 @@ const initSocket = (userId) => {
             store.dispatch(setOnlineUsers(onlineUserIds));
         });
 
-        socket.on('user-status-changed', (data) => {
+        socket.on('user_status_change', (data) => {
             const { userId, status } = data;
             if (status === "online") {
                 store.dispatch(addOnlineUser(userId));
+            } else if (status === "offline") {
+                store.dispatch(removeOnlineUser(userId))
             }
         });
     });

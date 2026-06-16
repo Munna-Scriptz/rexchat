@@ -6,9 +6,9 @@ import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 
 const NavConvoList = ({ conversations, isLoading }) => {
-    // ----------- Handle navigation 
+    // ----------- Online users 
     const onlineUsers = useSelector((state) => state.onlineUsers.users)
-    
+
     // ----------- Handle navigation 
     const navigate = useNavigate()
     const params = useParams()

@@ -56,8 +56,21 @@ io.on('connection', (socket) => {
             userId: userId,
             status: "online"
         });
+    });
 
-        console.log(`user online ${userId}`)
+    socket.on("disconnect", () => {
+        // Find the userId that matches this disconnecting socket.id
+        const userId = Object.keys(activeUsers).find(key => activeUsers[key] === socket.id);
+
+        if (userId) {
+            delete activeUsers[userId]; // Remove from our server RAM list
+
+            // Broadcast to all other users that this person went offline
+            socket.broadcast.emit("user_status_change", {
+                userId: userId,
+                status: "offline"
+            });
+        }
     });
 });
 
