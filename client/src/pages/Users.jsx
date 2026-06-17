@@ -3,9 +3,14 @@ import { FiArrowLeft, FiEye, FiMessageSquare, FiUserCheck, FiUserPlus } from 're
 import { useNavigate } from 'react-router';
 import { useGetUsersQuery } from '../api';
 import { UserSkeleton } from '../components/ui/SkeletonLoaders';
+import { useSelector } from 'react-redux';
+import StatusDot from '../components/ui/StatusDot';
 
 const Users = () => {
     const navigate = useNavigate();
+
+    // ----------- Online users -----------
+    const onlineUsers = useSelector((state) => state.onlineUsers.users)
 
     // ----------- From server -----------
     const { data: users, isLoading } = useGetUsersQuery()
@@ -54,8 +59,9 @@ const Users = () => {
                                                         {(item.username)?.slice(0, 2)}
                                                     </div>
                                             }
-
-                                            <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-surface bg-green-500" />
+                                            <div className="absolute -bottom-0.5 -right-0.5">
+                                                <StatusDot status={onlineUsers.includes(item?._id) ? "online" : "offline"} />
+                                            </div>
                                         </div>
                                         <div className="min-w-0">
                                             <p className="truncate text-sm font-bold text-text-primary group-hover:text-brand transition-colors">{item.displayName || `@${item.username}`}</p>

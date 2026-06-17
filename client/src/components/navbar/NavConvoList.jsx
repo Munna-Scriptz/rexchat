@@ -20,7 +20,6 @@ const NavConvoList = ({ conversations, isLoading }) => {
 
     // ----------- Skeleton loader 
     if (isLoading) return <ConvoListSkeleton />
-
     return (
         <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5">
             {conversations?.map((conv, i) => {

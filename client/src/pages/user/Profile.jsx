@@ -78,7 +78,7 @@ const Profile = () => {
             await updateProfile(formData).unwrap()
 
 
-            toast.success("Account created successfully!")
+            toast.success("Changes saved!")
         } catch (error) {
             toast.error(error?.data?.message)
         }
