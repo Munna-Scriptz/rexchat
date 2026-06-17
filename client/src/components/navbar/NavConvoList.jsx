@@ -4,6 +4,7 @@ import FormatTime from '../../utils/FormatTime';
 import { ConvoListSkeleton } from '../ui/SkeletonLoaders';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
+import { ConvoEmptyState } from '../ui/EmptyState';
 
 const NavConvoList = ({ conversations, isLoading }) => {
     // ----------- Online users 
@@ -20,6 +21,13 @@ const NavConvoList = ({ conversations, isLoading }) => {
 
     // ----------- Skeleton loader 
     if (isLoading) return <ConvoListSkeleton />
+
+    if (!conversations?.length) {
+        return (
+            <ConvoEmptyState />
+        )
+    }
+
     return (
         <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5">
             {conversations?.map((conv, i) => {

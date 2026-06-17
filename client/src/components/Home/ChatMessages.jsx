@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { ChatEmptyState } from '../ui/EmptyState';
 
 /* ─── Mock Messages ─── */
 const mockMessages = [
@@ -93,12 +94,13 @@ const MessageBubble = ({ message, index, userId }) => {
 /* ─── Main Component ─── */
 const ChatMessages = ({ messages, userId }) => {
   const scrollRef = useRef(null);
+  const hasMessages = Array.isArray(messages) && messages.some((msg) => msg?.type !== 'date');
 
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && hasMessages) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, hasMessages]);
 
   return (
     <div
@@ -106,11 +108,15 @@ const ChatMessages = ({ messages, userId }) => {
       ref={scrollRef}
       className="flex-1 overflow-y-auto py-2 space-y-1"
     >
-      {messages?.map((msg, i) =>
-        msg.type === 'date' ? (
-          <DateSeparator key={i} text={msg.text} />
-        ) : (
-          <MessageBubble key={i} message={msg} userId={userId} index={i} />
+      {!hasMessages ? (
+        <ChatEmptyState />
+      ) : (
+        messages?.map((msg, i) =>
+          msg.type === 'date' ? (
+            <DateSeparator key={i} text={msg.text} />
+          ) : (
+            <MessageBubble key={i} message={msg} userId={userId} index={i} />
+          )
         )
       )}
 
