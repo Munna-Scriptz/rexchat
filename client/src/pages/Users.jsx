@@ -1,7 +1,7 @@
 import React from 'react'
-import { FiArrowLeft, FiEye, FiMessageSquare, FiUserCheck, FiUserPlus } from 'react-icons/fi';
+import { FiArrowLeft, FiMessageSquare, FiUserCheck, FiUserPlus } from 'react-icons/fi';
 import { useNavigate } from 'react-router';
-import { useGetUsersQuery } from '../api';
+import { useCreatePrivateConvMutation, useGetUsersQuery } from '../api';
 import { UserSkeleton } from '../components/ui/SkeletonLoaders';
 import { useSelector } from 'react-redux';
 import StatusDot from '../components/ui/StatusDot';
@@ -14,6 +14,18 @@ const Users = () => {
 
     // ----------- From server -----------
     const { data: users, isLoading } = useGetUsersQuery()
+    const [createConv] = useCreatePrivateConvMutation()
+
+    // ----------- Create Convo -----------
+    const handleCreateConvo = async (id) => {
+        try {
+            const result = await createConv({ participant: id }).unwrap()
+
+            navigate(`/${result.data}`)
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     // ----------- Navigate to profile -----------
     const handleNavigate = () => {
@@ -77,7 +89,7 @@ const Users = () => {
                                                 handleFollow(item.id);
                                             }}
                                             className={`flex h-9 cursor-pointer items-center justify-center gap-1.5 px-4 rounded-lg text-xs font-bold transition-all duration-200 active:scale-95 ${item.isFollowed
-                                                ? 'bg-[#f3f4f6] text-[#6b7280] hover:bg-[#e5e7eb] border border-[#e5e7eb]' 
+                                                ? 'bg-[#f3f4f6] text-[#6b7280] hover:bg-[#e5e7eb] border border-[#e5e7eb]'
                                                 : 'bg-[#1f2937] text-white hover:bg-[#111827]'
                                                 }`}
                                         >
@@ -98,7 +110,7 @@ const Users = () => {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                handleOpenChat(item.id);
+                                                handleCreateConvo(item._id);
                                             }}
                                             className="flex h-9 cursor-pointer px-3.5 items-center justify-center gap-1.5 rounded-lg bg-brand text-xs font-bold text-white transition-all hover:bg-brand-hover shadow-sm shadow-brand/10 hover:shadow-md hover:shadow-brand/20 active:scale-95"
                                             title="Send Message"

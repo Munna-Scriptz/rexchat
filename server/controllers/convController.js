@@ -19,13 +19,13 @@ const createPrivateConvo = async (req, res) => {
         if (existingConvo) return resHandler.error(res, 400, "Conversation already exists")
 
         // ---------- Create Convo ------------
-        await conversationSchema.create({
+        const newConvo = await conversationSchema.create({
             creator: req.user._id,
             participant,
         })
-
+       
         // ----------- Success 
-        resHandler.success(res, 201, "Private conversation created")
+        resHandler.success(res, 201, "Private conversation created", newConvo._id )
     } catch (error) {
         resHandler.error(res, 500, "Internal server error")
     }

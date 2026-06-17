@@ -34,7 +34,7 @@ const baseQueryWithReauth = async (args, api, options) => {
 
 export const api = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["auth"],
+    tagTypes: ["auth", "conversation"],
 
     endpoints: (build) => ({
         // ════════════════════ User and auth ════════════════════
@@ -95,10 +95,11 @@ export const api = createApi({
         // ════════════════════ Conversation & Chat ════════════════════
         getConvoList: build.query({
             query: () => "/conv/list",
+            providesTags: ["conversation"],
         }),
 
         getConvoSingle: build.query({
-            query: (convId) => `/conv/single/${convId}`
+            query: (convId) => `/conv/single/${convId}`,
         }),
 
         getMessage: build.query({
@@ -112,6 +113,17 @@ export const api = createApi({
                 body: data,
             }),
         }),
+
+        createPrivateConv: build.mutation({
+            query: (data) => ({
+                url: "/conv/private",
+                method: "POST",
+                body: data,
+            }),
+            invalidatesTags: ["conversation"],
+        }),
+
+
 
     }),
 
@@ -132,4 +144,6 @@ export const {
     useGetConvoSingleQuery,
     useGetMessageQuery,
     useSendMessageMutation,
+    useCreatePrivateConvMutation,
+
 } = api
