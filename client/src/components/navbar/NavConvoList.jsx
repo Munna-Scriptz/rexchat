@@ -5,17 +5,26 @@ import { ConvoListSkeleton } from '../ui/SkeletonLoaders';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 import { ConvoEmptyState } from '../ui/EmptyState';
+import { useMarkAsSeenMutation } from '../../api';
 
 const NavConvoList = ({ conversations, isLoading }) => {
-    // ----------- Online users 
-    const onlineUsers = useSelector((state) => state.onlineUsers.users)
-
-    // ----------- Handle navigation 
     const navigate = useNavigate()
     const params = useParams()
 
-    const handleParams = (id) => {
+    // ----------- mark seen fetch 
+    const [markSeen] = useMarkAsSeenMutation()
+
+    // ----------- Online users 
+    const onlineUsers = useSelector((state) => state.onlineUsers.users)
+
+
+    // ----------- Handle Params 
+    const handleParams = async (id) => {
         navigate(`/${id}`)
+
+        if (!params?.id) {
+            await markSeen(id)
+        }
     }
 
 

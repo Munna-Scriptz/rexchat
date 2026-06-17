@@ -19,7 +19,8 @@ const sendMessage = async (req, res) => {
         const message = await messageSchema.create({
             conversation,
             text,
-            sender: req.user._id
+            sender: req.user._id,
+            seenBy: [req.user._id]
         })
 
         existingConvo.lastMessage = text
@@ -54,5 +55,29 @@ const getMessage = async (req, res) => {
 }
 
 
+// ════════════════════ Mark as seen ════════════════════
+const markAsSeen = async (req, res) => {
+    try {
+        const { conversation } = req.params;
+        await messageSchema.updateMany(
+            {
+                conversation,
+                sender: { $ne: req.user._id },
+                seenBy: { $ne: req.user._id }
+            },
+            {
+                $push: {
+                    seenBy: req.user._id
+                }
+            }
+        );
 
-module.exports = { sendMessage, getMessage }
+
+        resHandler.success(res, 200)
+    } catch (error) {
+        resHandler.error(res, 500, "Internal server error")
+    }
+};
+
+
+module.exports = { sendMessage, getMessage, markAsSeen }

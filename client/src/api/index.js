@@ -126,6 +126,12 @@ export const api = createApi({
             query: (convId) => `/message/${convId}`,
         }),
 
+        markAsSeen: build.mutation({
+            query: (convId) => ({
+                url: `/message/seen/${convId}`,
+                method: "PATCH",
+            }),
+        }),
 
     }),
 
@@ -144,8 +150,9 @@ export const {
 
     useGetConvoListQuery,
     useGetConvoSingleQuery,
+    useCreatePrivateConvMutation,
+    
     useGetMessageQuery,
     useSendMessageMutation,
-    useCreatePrivateConvMutation,
-
+    useMarkAsSeenMutation
 } = api
