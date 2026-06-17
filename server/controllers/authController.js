@@ -205,7 +205,7 @@ const getProfile = async (req, res) => {
 // ========================== Refresh access token =================
 const getUsers = async (req, res) => {
     try {
-        const users = await userSchema.find({}).select('username avatar displayName bio')
+        const users = await userSchema.find({ _id: { $ne: req.user._id } }).select('username avatar displayName bio')
         if (!users) return resHandler.error(res, 404, "No users found")
 
         // ------------- Success 

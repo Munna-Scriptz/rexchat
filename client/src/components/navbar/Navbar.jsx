@@ -8,7 +8,7 @@ import NavTabs from './NavTabs';
 import NavUser from './NavUser';
 import NavConvoList from './NavConvoList';
 import { useGetConvoListQuery, useGetProfileQuery } from '../../api';
-import { initSocket, socket } from '../../api/socketApi';
+import { socket } from '../../api/socketApi';
 
 /* ─── Mock Data ─── */
 const convs = [
@@ -83,7 +83,7 @@ const Navbar = () => {
 
 
     return (
-        <aside id="Navbar" className="w-80 h-screen flex flex-col bg-surface border-r border-border flex-shrink-0 select-none">
+        <aside id="Navbar" className="w-100 h-screen flex flex-col bg-surface border-r border-border flex-shrink-0 select-none">
             {/* ══════════ Header ══════════ */}
             <NavHeader />
 

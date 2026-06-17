@@ -71,40 +71,36 @@ const Users = () => {
 
                                     {/* Action Buttons Container */}
                                     <div className="flex items-center gap-2 shrink-0">
-                                        {/* Follow / Unfollow Toggle Button */}
                                         <button
                                             onClick={(e) => {
-                                                e.stopPropagation(); // Stops main card click event
+                                                e.stopPropagation();
                                                 handleFollow(item.id);
                                             }}
-                                            className={`flex h-9 w-9 items-center justify-center rounded-xl border transition-all active:scale-90 ${item.isFollowed
-                                                ? 'border-brand/20 bg-brand/10 text-brand hover:bg-brand/20'
-                                                : 'border-border bg-muted/40 text-text-secondary hover:border-brand/30 hover:bg-surface-hover hover:text-brand'
+                                            className={`flex h-9 cursor-pointer items-center justify-center gap-1.5 px-4 rounded-lg text-xs font-bold transition-all duration-200 active:scale-95 ${item.isFollowed
+                                                ? 'bg-[#f3f4f6] text-[#6b7280] hover:bg-[#e5e7eb] border border-[#e5e7eb]' 
+                                                : 'bg-[#1f2937] text-white hover:bg-[#111827]'
                                                 }`}
-                                            title={item.isFollowed ? "Unfollow" : "Follow"}
                                         >
-                                            {item.isFollowed ? <FiUserCheck className="h-4 w-4" /> : <FiUserPlus className="h-4 w-4" />}
-                                        </button>
-
-                                        {/* View Profile Button */}
-                                        <button
-                                            onClick={(e) => {
-                                                e.stopPropagation(); // Stops main card click event
-                                                handleNavigateToProfile(item.id);
-                                            }}
-                                            className="flex h-9 w-9 items-center justify-center rounded-xl border border-border bg-muted/40 text-text-secondary transition-all hover:border-brand/30 hover:bg-surface-hover hover:text-brand active:scale-90"
-                                            title="View Profile"
-                                        >
-                                            <FiEye className="h-4 w-4" />
+                                            {item.isFollowed ? (
+                                                <>
+                                                    <FiUserCheck className="h-3.5 w-3.5" />
+                                                    <span>Following</span>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <FiUserPlus className="h-3.5 w-3.5" />
+                                                    <span>Follow</span>
+                                                </>
+                                            )}
                                         </button>
 
                                         {/* Message Button */}
                                         <button
                                             onClick={(e) => {
-                                                e.stopPropagation(); // Stops main card click event
+                                                e.stopPropagation();
                                                 handleOpenChat(item.id);
                                             }}
-                                            className="flex h-9 px-3.5 items-center justify-center gap-1.5 rounded-xl bg-brand text-xs font-bold text-white transition-all hover:bg-brand-hover shadow-sm shadow-brand/10 hover:shadow-md hover:shadow-brand/20 active:scale-95"
+                                            className="flex h-9 cursor-pointer px-3.5 items-center justify-center gap-1.5 rounded-lg bg-brand text-xs font-bold text-white transition-all hover:bg-brand-hover shadow-sm shadow-brand/10 hover:shadow-md hover:shadow-brand/20 active:scale-95"
                                             title="Send Message"
                                         >
                                             <FiMessageSquare className="h-3.5 w-3.5" />

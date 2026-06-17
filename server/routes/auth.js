@@ -13,7 +13,7 @@ router.post('/forgetPassword', forgetPassword)
 router.post('/resetPassword/:token', resetPassword)
 router.get('/check-user/:username', checkUser)
 router.get('/profile', authMiddleware, getProfile)
-router.get('/users', getUsers)
+router.get('/users', authMiddleware, getUsers)
 router.patch('/updateProfile', authMiddleware, upload.single("avatar"), updateProfile)
 router.post('/refreshAccessToken', refreshAccToken)
 
