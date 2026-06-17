@@ -7,7 +7,7 @@ import { FiUserPlus } from 'react-icons/fi'
 const NavHeader = () => {
     return (
         <div className="px-5 pt-5 pb-3 flex items-center justify-between flex-shrink-0">
-            <div className="flex items-center gap-3">
+            <Link to={'/'} className="flex items-center gap-3">
                 {/* Logo */}
                 <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand to-accent flex items-center justify-center shadow-brand">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -18,7 +18,7 @@ const NavHeader = () => {
                     <h1 className="text-lg font-bold text-text-primary tracking-tight">RexChat</h1>
                     <span className="w-2 h-2 rounded-full bg-online shadow-[0_0_6px_rgba(34,197,94,0.5)]" />
                 </div>
-            </div>
+            </Link>
             <div className="flex items-center gap-1">
                 <Link
                     to={"/users"}

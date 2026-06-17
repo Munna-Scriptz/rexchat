@@ -163,3 +163,34 @@ export const ChatHeaderSkeleton = () => {
     );
 };
 
+export const ChatMessagesSkeleton = () => {
+    return (
+        <div className="flex-1 overflow-y-auto p-4 space-y-4 animate-pulse">
+            {/* Left Message Placeholder (Incoming) */}
+            <div className="flex justify-start">
+                <div className="rounded-2xl bg-muted/60 h-10 w-36 max-w-[70%]" />
+            </div>
+
+            {/* Right Message Placeholder (Outgoing) */}
+            <div className="flex justify-end">
+                <div className="rounded-2xl bg-brand/20 h-10 w-28 max-w-[70%]" />
+            </div>
+
+            {/* Right Message Placeholder 2 (Outgoing) */}
+            <div className="flex justify-end">
+                <div className="rounded-2xl bg-brand/20 h-10 w-24 max-w-[70%]" />
+            </div>
+
+            {/* Left Message Placeholder 2 (Incoming) */}
+            <div className="flex justify-start">
+                <div className="rounded-2xl bg-muted/60 h-10 w-44 max-w-[70%]" />
+            </div>
+
+            {/* Right Message Placeholder 3 (Outgoing) */}
+            <div className="flex justify-end">
+                <div className="rounded-2xl bg-brand/20 h-10 w-32 max-w-[70%]" />
+            </div>
+        </div>
+    );
+};
+

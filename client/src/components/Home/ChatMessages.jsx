@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import { ChatEmptyState } from '../ui/EmptyState';
+import { ChatMessagesSkeleton } from '../ui/SkeletonLoaders';
 
 /* ─── Mock Messages ─── */
 const mockMessages = [
@@ -92,7 +93,9 @@ const MessageBubble = ({ message, index, userId }) => {
 };
 
 /* ─── Main Component ─── */
-const ChatMessages = ({ messages, userId }) => {
+const ChatMessages = ({ messages, userId, isLoading }) => {
+
+
   const scrollRef = useRef(null);
   const hasMessages = Array.isArray(messages) && messages.some((msg) => msg?.type !== 'date');
 
@@ -101,7 +104,8 @@ const ChatMessages = ({ messages, userId }) => {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages, hasMessages]);
-
+  
+  if (isLoading) return <ChatMessagesSkeleton />
   return (
     <div
       id="chat-messages"

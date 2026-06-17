@@ -22,10 +22,10 @@ const Conversation = () => {
                 <ChatHeader conversation={chatUser?.data} isLoading={isConvFetching} />
 
                 {/* Messages */}
-                <ChatMessages messages={messageList} userId={userId} />
+                <ChatMessages messages={messageList} userId={userId} isLoading={isFetching} />
 
                 {/* Input */}
-                <ChatInput conversation={convoId} username={chatUser?.data.chatUser.username}/>
+                <ChatInput conversation={convoId} username={chatUser?.data.chatUser.username} />
             </main>
         </>
     )

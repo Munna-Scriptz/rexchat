@@ -2,10 +2,12 @@ const express = require('express')
 const router = express.Router()
 const auth = require('./auth')
 const conversation = require('./conversation')
+const message = require('./message')
 
 // ------------ All routes 
 router.use('/auth', auth)
 router.use('/conv', conversation)
+router.use('/message', message)
 
 
 

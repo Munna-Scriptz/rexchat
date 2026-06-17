@@ -89,10 +89,11 @@ export const api = createApi({
                 url: "/auth/signout",
                 method: "POST",
             }),
+            invalidatesTags: ["auth"],
         }),
 
 
-        // ════════════════════ Conversation & Chat ════════════════════
+        // ════════════════════ Conversation ════════════════════
         getConvoList: build.query({
             query: () => "/conv/list",
             providesTags: ["conversation"],
@@ -100,18 +101,6 @@ export const api = createApi({
 
         getConvoSingle: build.query({
             query: (convId) => `/conv/single/${convId}`,
-        }),
-
-        getMessage: build.query({
-            query: (convId) => `/conv/messages/${convId}`,
-        }),
-
-        sendMessage: build.mutation({
-            query: (data) => ({
-                url: "/conv/send-message",
-                method: "POST",
-                body: data,
-            }),
         }),
 
         createPrivateConv: build.mutation({
@@ -123,6 +112,19 @@ export const api = createApi({
             invalidatesTags: ["conversation"],
         }),
 
+
+        // ════════════════════ Chat ════════════════════
+        sendMessage: build.mutation({
+            query: (data) => ({
+                url: "/message/send",
+                method: "POST",
+                body: data,
+            }),
+        }),
+        
+        getMessage: build.query({
+            query: (convId) => `/message/${convId}`,
+        }),
 
 
     }),
