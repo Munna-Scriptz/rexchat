@@ -16,8 +16,7 @@ const NavConvoList = ({ conversations, isLoading }) => {
 
     // ----------- Online users 
     const onlineUsers = useSelector((state) => state.onlineUsers.users)
-
-
+    const lastMessage = useSelector((state) => state.messages.messages).slice(-1)[0]
     // ----------- Handle Params 
     const handleParams = async (id) => {
         navigate(`/${id}`)
@@ -46,10 +45,12 @@ const NavConvoList = ({ conversations, isLoading }) => {
                         key={i}
                         id={`conversation-${conv._id}`}
                         onClick={() => handleParams(conv._id)}
-                        className={`w-full flex items-center cursor-pointer gap-3 px-3 py-3 rounded-2xl transition-all duration-200 text-left group relative
+                        className={`w-full flex items-center cursor-pointer gap-3 px-3 py-3 rounded-2xl transition-all duration-300 text-left group relative border
                                 ${isActive
-                                ? 'bg-brand/10 border border-brand/20 shadow-[0_0_20px_rgba(109,40,217,0.1)]'
-                                : 'hover:bg-muted/70 border border-transparent'
+                                ? 'bg-brand/10 border-brand/20 shadow-[0_0_20px_rgba(109,40,217,0.1)]'
+                                : conv.unread > 0
+                                    ? 'bg-brand/5 border-brand/20 shadow-sm hover:bg-brand/10'
+                                    : 'border-transparent hover:bg-muted/70 opacity-90 hover:opacity-100'
                             }`}
                         style={{ animationDelay: `${i * 30}ms` }}
                     >
@@ -63,7 +64,7 @@ const NavConvoList = ({ conversations, isLoading }) => {
                             {
                                 conv?.chatUser?.avatar ?
                                     <div className="w-10 h-10 rounded-full overflow-hidden">
-                                        <img src={conv?.chatUser?.avatar} alt="avatar" />
+                                        <img src={conv?.chatUser?.avatar} className="w-full h-full object-cover" alt="avatar" />
                                     </div>
                                     :
                                     <div className={`w-11 h-11 rounded-full bg-gradient-to-br from-brand to-accent flex items-center justify-center text-white text-sm font-bold shadow-sm
@@ -80,19 +81,20 @@ const NavConvoList = ({ conversations, isLoading }) => {
                         {/* Content */}
                         <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between mb-0.5">
-                                <span className={`text-[13.5px] font-semibold truncate ${isActive ? 'text-text-primary' : 'text-text-primary/90'}`}>
+                                <span className={`text-[13.5px] truncate ${isActive || conv.unread > 0 ? 'font-bold text-text-primary' : 'font-semibold text-text-primary/80'}`}>
                                     {conv.chatUser.displayName || conv.chatUser.username}
                                 </span>
-                                <span className={`text-[11px] flex-shrink-0 ml-2 ${conv.unread > 0 ? 'text-accent font-medium' : 'text-text-muted'}`}>
+                                <span className={`text-[11px] flex-shrink-0 ml-2 transition-colors ${conv.unread > 0 ? 'text-brand font-bold' : 'text-text-muted'}`}>
                                     {FormatTime(conv.updatedAt)}
                                 </span>
                             </div>
+
                             <div className="flex items-center justify-between">
-                                <p className="text-xs text-text-secondary truncate pr-2 leading-relaxed">
-                                    {conv.lastMessage}
+                                <p className={`text-xs truncate pr-2 leading-relaxed transition-colors ${conv.unread > 0 ? 'text-text-primary font-semibold' : 'text-text-secondary font-normal'}`}>
+                                    {lastMessage.text}
                                 </p>
                                 {conv.unread > 0 && (
-                                    <span className="min-w-[20px] h-5 flex items-center justify-center rounded-full bg-brand text-white text-[10px] font-bold px-1.5 flex-shrink-0 shadow-brand">
+                                    <span className="min-w-[20px] h-5 flex items-center justify-center rounded-full bg-brand text-white text-[10px] font-bold px-1.5 flex-shrink-0 shadow-sm shadow-brand/40 animate-pulse-slow">
                                         {conv.unread}
                                     </span>
                                 )}

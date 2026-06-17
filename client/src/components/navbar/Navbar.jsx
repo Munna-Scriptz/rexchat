@@ -94,7 +94,11 @@ const Navbar = () => {
             <NavTabs navItems={navItems} />
 
             {/* ══════════ Conversation List ══════════ */}
-            <NavConvoList conversations={conversations?.data} isLoading={isLoading} />
+            <NavConvoList
+                conversations={conversations?.data}
+                isLoading={isLoading}
+                currentUserId={user?.data?._id}
+            />
 
             {/* ══════════ User Profile ══════════ */}
             <NavUser user={user} isFetching={isFetching} />

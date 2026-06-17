@@ -34,7 +34,7 @@ const baseQueryWithReauth = async (args, api, options) => {
 
 export const api = createApi({
     baseQuery: baseQueryWithReauth,
-    tagTypes: ["auth", "conversation"],
+    tagTypes: ["auth", "conversation", "conversationMessages"],
 
     endpoints: (build) => ({
         // ════════════════════ User and auth ════════════════════
@@ -124,6 +124,9 @@ export const api = createApi({
         
         getMessage: build.query({
             query: (convId) => `/message/${convId}`,
+            providesTags: (result, error, convId) => [
+                { type: "conversationMessages", id: convId },
+            ],
         }),
 
         markAsSeen: build.mutation({
@@ -131,6 +134,9 @@ export const api = createApi({
                 url: `/message/seen/${convId}`,
                 method: "PATCH",
             }),
+            invalidatesTags: (result, error, convId) => [
+                { type: "conversationMessages", id: convId },
+            ],
         }),
 
     }),
