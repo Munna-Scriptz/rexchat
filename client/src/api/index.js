@@ -121,7 +121,7 @@ export const api = createApi({
                 body: data,
             }),
         }),
-        
+
         getMessage: build.query({
             query: (convId) => `/message/${convId}`,
             providesTags: (result, error, convId) => [
@@ -157,7 +157,7 @@ export const {
     useGetConvoListQuery,
     useGetConvoSingleQuery,
     useCreatePrivateConvMutation,
-    
+
     useGetMessageQuery,
     useSendMessageMutation,
     useMarkAsSeenMutation

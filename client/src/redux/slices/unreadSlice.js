@@ -25,12 +25,8 @@ const unreadSlice = createSlice({
 
             state.unreadCounts[conversation] = 0;
         },
-
-        setAllUnread(state, action) {
-            state.unreadCounts = action.payload;
-        }
     }
 });
 
-export const { setUnreadCount, incrementUnread, clearUnread, setAllUnread } = unreadSlice.actions;
+export const { setUnreadCount, incrementUnread, clearUnread } = unreadSlice.actions;
 export default unreadSlice.reducer;

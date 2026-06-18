@@ -82,24 +82,4 @@ const markAsSeen = async (req, res) => {
     }
 };
 
-
-// ════════════════════ Mark as seen ════════════════════
-const unreadCount = async (req, res) => {
-    try {
-        const { conversation } = req.params;
-
-        const unread = await messageSchema.countDocuments({
-            conversation: conversation,
-            sender: { $ne: req.user._id },
-            seenBy: { $ne: req.user._id }
-        });
-
-        // -------------------- Success 
-        resHandler.success(res, 200, "", unread)
-    } catch (error) {
-        resHandler.error(res, 500, "Internal server error")
-    }
-};
-
-
-module.exports = { sendMessage, getMessage, markAsSeen, unreadCount }
+module.exports = { sendMessage, getMessage, markAsSeen }
