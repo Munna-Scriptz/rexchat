@@ -2,11 +2,13 @@ import io from "socket.io-client"
 import { store } from "../redux/store"
 import { addMessage } from "../redux/slices/messagesSlice"
 import { addOnlineUser, removeOnlineUser, setOnlineUsers } from "../redux/slices/onlineUserSlice"
-import { incrementUnread } from "../redux/slices/unreadSlice"
+import { clearUnread, incrementUnread } from "../redux/slices/unreadSlice"
 
 let socket
+let currentUserId
 
 const initSocket = (userId) => {
+    currentUserId = userId
     socket = io.connect(import.meta.env.VITE_API_URL)
 
     // -------------- User online status --------------
@@ -30,12 +32,14 @@ const initSocket = (userId) => {
     });
 
     socket.on("messages_seen", (data) => {
-        console.log(data);
+        store.dispatch(clearUnread(data.conversation))
     });
 
     socket.on("new_message", (res) => {
         store.dispatch(addMessage(res))
-        store.dispatch(incrementUnread(res.conversation))
+        if (res?.sender?.toString?.() !== currentUserId?.toString?.()) {
+            store.dispatch(incrementUnread(res.conversation))
+        }
     });
 }
 

@@ -23,11 +23,8 @@ const NavConvoList = ({ conversations, isLoading }) => {
     // ----------- Handle Params 
     const handleParams = async (id) => {
         navigate(`/${id}`)
-
-        if (!params?.id) {
-            dispatch(clearUnread(id));
-            await markSeen(id)
-        }
+        dispatch(clearUnread(id));
+        await markSeen(id)
     }
 
 
@@ -44,7 +41,7 @@ const NavConvoList = ({ conversations, isLoading }) => {
         <div className="flex-1 overflow-y-auto px-2.5 space-y-0.5">
             {conversations?.map((conv, i) => {
                 const isActive = params?.id === conv._id;
-                const unreadCount = unreadCounts[conv._id] || 0;
+                const unreadCount = unreadCounts[conv._id] ?? conv.unreadCount ?? 0;
                 return (
                     <button
                         key={i}
