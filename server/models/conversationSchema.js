@@ -42,8 +42,8 @@ const conversationSchema = new mongoose.Schema({
         type: String,
     },
 
-    lastMessageSeen: {
-        type: String,
+    unreadCount: {
+        type: Number,
     },
 
     lastMessageAt: {
