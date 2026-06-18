@@ -1,6 +1,6 @@
 import io from "socket.io-client"
 import { store } from "../redux/store"
-import { addMessage } from "../redux/slices/messagesSlice"
+import { addMessage, markMessagesSeen } from "../redux/slices/messagesSlice"
 import { addOnlineUser, removeOnlineUser, setOnlineUsers } from "../redux/slices/onlineUserSlice"
 import { clearUnread, incrementUnread } from "../redux/slices/unreadSlice"
 
@@ -33,6 +33,13 @@ const initSocket = (userId) => {
 
     socket.on("messages_seen", (data) => {
         store.dispatch(clearUnread(data.conversation))
+        if (data?.userId?.toString?.() !== currentUserId?.toString?.()) {
+            store.dispatch(markMessagesSeen({
+                conversation: data.conversation,
+                seenByUserId: data.userId,
+                currentUserId,
+            }))
+        }
     });
 
     socket.on("new_message", (res) => {

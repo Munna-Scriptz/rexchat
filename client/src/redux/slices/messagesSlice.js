@@ -11,6 +11,27 @@ const messagesSlice = createSlice({
         addMessage(state, action) {
             state.messages.push(action.payload)
         },
+
+        markMessagesSeen(state, action) {
+            const { conversation, seenByUserId } = action.payload;
+
+            state.messages = state.messages.map((message) => {
+                const sameConversation = message.conversation?.toString?.() === conversation?.toString?.();
+                const sentByMe = message.sender?.toString?.() === action.payload.currentUserId?.toString?.();
+
+                if (!sameConversation || !sentByMe) return message;
+
+                const alreadySeen = Array.isArray(message.seenBy)
+                    && message.seenBy.some((id) => id?.toString?.() === seenByUserId?.toString?.());
+
+                if (alreadySeen) return message;
+
+                return {
+                    ...message,
+                    seenBy: [...(message.seenBy || []), seenByUserId],
+                };
+            });
+        },
     },
     extraReducers: (builder) => {
         builder.addMatcher(
@@ -22,5 +43,5 @@ const messagesSlice = createSlice({
     },
 });
 
-export const { addMessage } = messagesSlice.actions;
+export const { addMessage, markMessagesSeen } = messagesSlice.actions;
 export default messagesSlice.reducer;

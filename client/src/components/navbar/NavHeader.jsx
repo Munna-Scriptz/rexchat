@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'react-router'
-import { FaRegBell } from 'react-icons/fa'
 import { LuSettings } from 'react-icons/lu'
 import { FiUserPlus } from 'react-icons/fi'
 

@@ -1,11 +1,12 @@
 import React from 'react'
-import { LuCheck, LuCheckCheck } from 'react-icons/lu';
+import { LuCheck } from 'react-icons/lu';
 
-const MessageBubble = ({ message, index, userId, chatUserId, idMatches }) => {
+const MessageBubble = ({ message, index, userId, chatUserId, idMatches, showSeen }) => {
 
 
     const isMe = message.sender == userId;
     const isSeen = isMe && Array.isArray(message.seenBy) && message.seenBy.some((id) => idMatches(id, chatUserId));
+    const seenText = isMe && isSeen ? 'Seen' : '';
 
     return (
         <div
@@ -28,7 +29,11 @@ const MessageBubble = ({ message, index, userId, chatUserId, idMatches }) => {
                 {/* Timestamp + Read Status */}
                 <div className={`flex items-center gap-1 mt-1 ${isMe ? 'justify-end' : 'justify-start'}`}>
                     <span className="text-[10px]">{message.time}</span>
-                    {isMe && (isSeen ? <LuCheckCheck className="text-accent/70" /> : <LuCheck className='text-text-muted/60' />)}
+                    {isMe && showSeen && (
+                        isSeen
+                            ? <span className="text-[10px] text-accent/80 font-medium">{seenText}</span>
+                            : <LuCheck className='text-text-muted/60' />
+                    )}
                 </div>
 
                 {/* Hover Actions */}

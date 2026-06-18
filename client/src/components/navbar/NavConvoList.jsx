@@ -93,7 +93,7 @@ const NavConvoList = ({ conversations, isLoading }) => {
 
                             <div className="flex items-center justify-between">
                                 <p className={`text-xs truncate pr-2 leading-relaxed transition-colors ${unreadCount > 0 ? 'text-text-primary font-semibold' : 'text-text-secondary font-normal'}`}>
-                                    {lastMessage?.text}
+                                    {lastMessage?.text || conv.lastMessage}
                                 </p>
                                 {unreadCount > 0 && (
                                     <span className="min-w-[20px] h-5 flex items-center justify-center rounded-full bg-brand text-white text-[10px] font-bold px-1.5 flex-shrink-0 shadow-sm shadow-brand/40 animate-pulse-slow">

@@ -18,6 +18,11 @@ const ChatMessages = ({ conversationId, messages, userId, chatUserId, isLoading 
   // --------- Scroll to bottom ---------
   const scrollRef = useRef(null);
   const hasMessages = Array.isArray(messages) && messages.some((msg) => msg?.type !== 'date');
+  const lastOutgoingIndex = Array.isArray(messages)
+    ? messages.reduce((lastIndex, msg, index) => (
+      msg?.type !== 'date' && idMatches(msg?.sender, userId) ? index : lastIndex
+    ), -1)
+    : -1;
 
   useEffect(() => {
     if (scrollRef.current && hasMessages) {
@@ -57,7 +62,15 @@ const ChatMessages = ({ conversationId, messages, userId, chatUserId, isLoading 
               </div>
             </div>
           ) : (
-            <MessageBubble key={i} message={msg} userId={userId} chatUserId={chatUserId} idMatches={idMatches} index={i} />
+            <MessageBubble
+              key={i}
+              message={msg}
+              userId={userId}
+              chatUserId={chatUserId}
+              idMatches={idMatches}
+              index={i}
+              showSeen={i === lastOutgoingIndex}
+            />
           )
         )
       )}
