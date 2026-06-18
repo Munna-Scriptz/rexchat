@@ -32,6 +32,7 @@ io.on('connection', (socket) => {
         socket.join(convId)
     })
 
+    // ---------- Typing and Stop typing --------------
     socket.on("typing", ({ convId, username }) => {
         socket.to(convId).emit("user_typing", { username });
     });
@@ -39,6 +40,9 @@ io.on('connection', (socket) => {
     socket.on("stop_typing", ({ convId }) => {
         socket.to(convId).emit("user_stopped_typing");
     });
+
+    // ---------- Seen/unread --------------
+
 
 
     // ---------- Connection and disconnection --------------

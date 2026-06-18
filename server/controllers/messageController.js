@@ -72,7 +72,10 @@ const markAsSeen = async (req, res) => {
             }
         );
 
+        // -------------------- Mark as seen 
+        global.io.to(conversation).emit("messages_seen", { conversation, userId: req.user._id });
 
+        // -------------------- Success 
         resHandler.success(res, 200)
     } catch (error) {
         resHandler.error(res, 500, "Internal server error")
